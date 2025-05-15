@@ -1,33 +1,48 @@
-# Toka
+# Sistema de Gestão para o Toka Snooker Bar
 
-This template should help get you started developing with Vue 3 in Vite.
+> Sistema de Gestão para Clientes, Reservas, Consumo e Karaokê do Toka Snooker Bar — Vue.js, Node.js e Express.
 
-## Recommended IDE Setup
+## Descrição
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+Este projeto foi desenvolvido como parte do Trabalho de Conclusão de Curso (TCC) para a graduação em Análise e Desenvolvimento de Sistemas. A aplicação tem como objetivo oferecer uma solução eficiente para a gestão de clientes, reservas e controle de consumo no Toka Snooker Bar, localizado em Santo André, SP.
+O sistema conta com um módulo de gerenciamento de filas para o karaokê, operando em tempo real e ajustado conforme as regras de negócio específicas do estabelecimento, proporcionando uma experiência organizada e fluida para os clientes.
+O projeto foi desenvolvido com Vue.js no front-end e Node.js com Express no back-end, priorizando uma interface intuitiva, alta performance e integração eficiente entre as camadas do sistema.
 
-## Type Support for `.vue` Imports in TS
+### Principais Funcionalidades:
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- Cadastro e gerenciamento de clientes.
+- Reserva de mesas para jogos de sinuca.
+- Controle da fila de karaôke.
+- Controle de consumo de bebidas e alimentos.
+- Geração de relatórios de vendas e consumo.
 
-## Customize configuration
+## Tecnologias Utilizadas
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+- **Linguagem de Programação**: JavaScript
+- **Framework Front-end**: Vue.js
+- **Frameworks Back-end**: Node.js, Express
+- **Banco de Dados**: MySQL
+- **Ferramenta de Desenvolvimento**: VS Code 
 
-## Project Setup
+## Informações sobre o Toka Snooker Bar
 
-```sh
-npm install
-```
+- **Nome**: Toka Snooker Bar Karaoke Ltda
+- **Endereço**: Rua Coronel Alfredo Flaquer, 386, Centro, Santo André, SP, 09020-040
+- **Telefone**: +55 (11) 4432-2419
+- **Horário de Funcionamento**:
+  - Terça a Sexta: 18:00 - 03:30
+  - Sábado: 17:00 - 03:00
+  - Domingo: 17:00 - 22:00
+  - Segunda-feira: Fechado
 
-### Compile and Hot-Reload for Development
+## Licença
 
-```sh
-npm run dev
-```
+Este projeto foi desenvolvido para fins acadêmicos e não possui uma licença específica.
 
-### Type-Check, Compile and Minify for Production
+## Autores
 
-```sh
-npm run build
-```
+- **Caue Nunes de Menezes**
+- **Gabriel Alves Soares**
+- **Ingrid Rodrigues Santana**
+- **Janis Gabriela Santos de Oliveira**
+- **Thais Gomes de Oliveira e Silva**
