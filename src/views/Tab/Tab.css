@@ -1,0 +1,130 @@
+.tab-container {
+    max-width: 100%;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    background: #fff;
+    padding: 16px;
+    color: #333;
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #c0c0c0;
+    padding: 8px 12px;
+    border-radius: 4px;
+  }
+  
+  .back-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: white;
+  }
+  
+  .header h1 {
+    color: white;
+    margin: 0;
+    font-weight: 600;
+    font-size: 20px;
+  }
+  
+  .top-info {
+    display: flex;
+    justify-content: space-between;
+    margin: 16px 0;
+    font-size: 12px;
+  }
+  
+  .label {
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+    text-align: center;
+  }
+  
+  .value {
+    margin: 0;
+    text-align: center;
+  }
+  
+  .finalizada {
+    text-align: center;
+    color: #009900;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  
+  .box {
+    border-radius: 4px;
+    margin-bottom: 16px;
+    padding: 10px 12px;
+  }
+  
+  .pedidos {
+    border: 2px solid red;
+    color: #000000;
+  }
+  
+  .karaoke {
+    border: 2px solid #3a82f7;
+    color: #000000;
+  }
+  
+  .sinuca {
+    border: 2px solid #3cb371;
+    color: #000000;
+  }
+
+  .title-order{
+    color:red
+  }
+  .title-kareoke{
+    color:#3a82f7
+  }
+  .title-snooker{
+    color:#3cb371
+  }
+  
+  .box h3 {
+    margin: 0 0 8px 0;
+    font-weight: 700;
+    font-size: 14px;
+    text-align: center;
+  }
+  
+  .table-header,
+  .table-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    padding: 2px 0;
+  }
+  
+  .table-header {
+    font-weight: 700;
+    border-bottom: 1px solid currentColor;
+    margin-bottom: 6px;
+  }
+  
+  .total {
+    font-weight: 700;
+    font-size: 13px;
+    margin-top: 8px;
+    text-align: right;
+  }
+  
+  .history-btn {
+    width: 100%;
+    background: #c0c0c0;
+    border: none;
+    padding: 8px 0;
+    border-radius: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  

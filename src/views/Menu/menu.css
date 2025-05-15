@@ -1,0 +1,164 @@
+
+.menu {
+  padding: 16px;
+  font-family: sans-serif;
+  min-height: 100vh;
+  box-sizing: border-box;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #fff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: white;
+    color: black;
+    font-family: sans-serif;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ccc;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.header .back {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.header h2 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+
+.tabs button {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #f2f2f2;
+}
+
+.tabs button.active {
+  background-color: #ffeeba;
+  color: #000;
+}
+
+.tabs button:nth-child(2).active {
+  background-color: #cce5ff;
+}
+
+.tabs button:nth-child(3).active {
+  background-color: #f8d7da;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+}
+
+.card .icon {
+  width: 48px;
+  margin-right: 12px;
+}
+
+.card .info {
+  flex-grow: 1;
+}
+
+.card h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.card p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #666;
+}
+
+.card .price {
+  text-align: right;
+  font-weight: bold;
+}
+
+.card .plus {
+  display: inline-block;
+  background: #000;
+  color: #fff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+  margin-left: 8px;
+  font-size: 14px;
+}
+
+.modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  position: relative;
+  max-width: 300px;
+  text-align: center;
+}
+
+.modal-content img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.modal-content .close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 18px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+
