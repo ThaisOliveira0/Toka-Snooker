@@ -1,0 +1,40 @@
+.historico {
+  padding: 16px;
+  max-width: 500px;
+  margin: 0 auto;
+  font-family: sans-serif;
+  background-color: #f2f2f2;
+}
+
+.historico-header {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 16px;
+  background-color: #aaa;
+  padding: 12px;
+  border-radius: 8px;
+  color: white;
+  margin-bottom: 16px;
+}
+
+.comanda-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.comanda-item {
+  background: white;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.status-icon {
+  font-size: 20px;
+}
