@@ -91,7 +91,6 @@ export default {
         phone: this.phone,
         password: this.password,
       });
-      // Aqui você pode chamar API ou lógica de cadastro
     },
   },
 };

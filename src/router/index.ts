@@ -6,6 +6,7 @@ import Tab from '@/views/Tab/Tab.vue'
 import History from '@/views/History/History.vue'
 import Login from '@/views/Login/Login.vue'
 import SignUp from '@/views/SignUp/SignUp.vue'
+import ForgotPassword from '@/views/ForgotPassword/ForgotPassword.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,11 @@ const router = createRouter({
             path: '/cadastro',
             name: 'signUp',
             component: SignUp
+        },
+        {
+            path: '/recuperar-senha',
+            name: 'forgotPassword',
+            component: ForgotPassword
         },
     ]
 })
