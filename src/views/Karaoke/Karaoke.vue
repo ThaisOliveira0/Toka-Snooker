@@ -1,7 +1,7 @@
 <template>
     <div class="container">
       <div class="header">
-        <button @click="$router.back()" class="back-button">←</button>
+        <button @click="$router.push({ name: 'home' })" class="back-button">&lt;</button>
         <h1 class="title">KARAOKÊ 🎤</h1>
       </div>
   

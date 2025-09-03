@@ -1,38 +1,44 @@
-
 .menu {
   padding: 16px;
   font-family: sans-serif;
   min-height: 100vh;
-  box-sizing: border-box;
   max-width: 600px;
   margin: 0 auto;
   background-color: #fff;
+  box-sizing: border-box;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    background-color: white;
-    color: black;
-    font-family: sans-serif;
+  background-color: white;
+  color: black;
+  font-family: sans-serif;
 }
 
-.header {
+.menu-header {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #ccc;
+  background-color: #ccc !important;
   border-radius: 8px;
   padding: 12px;
   margin-bottom: 16px;
   position: relative;
 }
 
-.header .back {
+.menu-header h2 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+  font-size: 22px;
+  color: #333;
+}
+
+.menu-back-button {
   position: absolute;
   left: 12px;
   top: 50%;
@@ -43,12 +49,7 @@ body {
   cursor: pointer;
 }
 
-.header h2 {
-  font-size: 20px;
-  margin: 0;
-}
-
-.tabs {
+.menu-tabs {
   display: flex;
   gap: 10px;
   overflow-x: auto;
@@ -56,7 +57,7 @@ body {
   margin-bottom: 16px;
 }
 
-.tabs button {
+.menu-tabs button {
   flex-shrink: 0;
   padding: 8px 16px;
   border: none;
@@ -64,71 +65,105 @@ body {
   font-weight: bold;
   cursor: pointer;
   background-color: #f2f2f2;
+  color: #333;
 }
 
-.tabs button.active {
-  background-color: #ffeeba;
-  color: #000;
+.menu-tabs button.active:nth-child(1) {
+  background-color: #ffcc80;
+  color: #fff;
 }
 
-.tabs button:nth-child(2).active {
-  background-color: #cce5ff;
+.menu-tabs button.active:nth-child(2) {
+  background-color: #80d6ff;
+  color: #fff;
 }
 
-.tabs button:nth-child(3).active {
-  background-color: #f8d7da;
+.menu-tabs button.active:nth-child(3) {
+  background-color: #ff809f;
+  color: #fff;
 }
 
-.card {
+.menu-category-title {
+  text-align: center;
+  font-size: 18px;
+  margin: 16px 0;
+  color: #555;
+  font-weight: 500;
+}
+
+.menu-card {
   display: flex;
+  justify-content: space-between; 
   align-items: center;
-  background: #fff;
+  background: #f4f4f4;
   margin-bottom: 12px;
   padding: 10px 16px;
   border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  cursor: pointer;
+  box-shadow: 0 6px 6px rgba(0, 0, 0, 0.08);
 }
 
-.card .icon {
+.menu-card .menu-icon {
   width: 48px;
+  height: 48px;
   margin-right: 12px;
 }
 
-.card .info {
-  flex-grow: 1;
+.menu-info {
+  flex: 1;
 }
 
-.card h4 {
+.menu-card h4 {
   margin: 0;
   font-size: 16px;
 }
 
-.card p {
+.menu-card p {
   margin: 4px 0 0;
   font-size: 13px;
   color: #666;
 }
 
-.card .price {
-  text-align: right;
+.menu-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.menu-price {
   font-weight: bold;
+  font-size: 16px;
 }
 
-.card .plus {
-  display: inline-block;
-  background: #000;
-  color: #fff;
+.menu-add-to-cart {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.menu-add-to-cart button {
+  background: transparent;
+  color: #333;
+  border: 1px solid #ccc;
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  text-align: center;
-  line-height: 20px;
-  margin-left: 8px;
-  font-size: 14px;
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.modal {
+.menu-add-to-cart span {
+  min-width: 20px;
+  text-align: center;
+  font-weight: bold;
+  color: #333;
+}
+
+.menu-modal {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(0,0,0,0.6);
@@ -137,7 +172,7 @@ body {
   align-items: center;
 }
 
-.modal-content {
+.menu-modal-content {
   background: white;
   padding: 20px;
   border-radius: 12px;
@@ -146,12 +181,12 @@ body {
   text-align: center;
 }
 
-.modal-content img {
+.menu-modal-content img {
   max-width: 100%;
   border-radius: 8px;
 }
 
-.modal-content .close {
+.menu-modal-content .menu-close {
   position: absolute;
   top: 8px;
   right: 12px;
@@ -161,4 +196,29 @@ body {
   cursor: pointer;
 }
 
+.menu-cart-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #22500a9e;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1000;
+}
 
+.menu-cart-button {
+  background: white;
+  color: #194611;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}

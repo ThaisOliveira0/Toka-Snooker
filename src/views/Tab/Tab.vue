@@ -1,7 +1,7 @@
 <template>
     <div class="tab-container">
       <header class="header">
-        <button class="back-btn">&lt;</button>
+        <button @click="$router.push({ name: 'home' })" class="back-button">&lt;</button>
         <h1>COMANDA</h1>
       </header>
   

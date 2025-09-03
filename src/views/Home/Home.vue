@@ -7,43 +7,59 @@
     <div class="welcome-section">
       <img src="@/assets/images/personagem.png" alt="Personagem" class="character" />
       <div class="speech">
-        <p class="highlight">SEJA BEM-VINDO(A) AO <span class="red-text">TOKA</span> SNOOKER BAR !!</p>
+        <p class="highlight">
+          SEJA BEM-VINDO(A) AO <span class="red-text">TOKA</span> SNOOKER BAR !!
+        </p>
         <p class="subtitle">Onde a Música Encontra a Tacada Perfeita!</p>
       </div>
     </div>
 
+    <!-- Menu Buttons -->
     <div class="menu-buttons">
-      <div class="menu-item">
+      <router-link to="/menu" class="menu-item">
         <div class="icon-box">
           <img src="@/assets/images/icon-menu.png" alt="Menu" />
         </div>
         <span>Menu</span>
-      </div>
-      <div class="menu-item">
+      </router-link>
+
+      <router-link to="/menu" class="menu-item">
         <div class="icon-box">
           <img src="@/assets/images/icon-sinuca.png" alt="Sinuca" />
         </div>
         <span>Sinuca</span>
-      </div>
-      <div class="menu-item">
+      </router-link>
+
+      <router-link to="/karaoke" class="menu-item">
         <div class="icon-box">
           <img src="@/assets/images/icon-karaoke.png" alt="Karaokê" />
         </div>
         <span>Karaokê</span>
-      </div>
-      <div class="menu-item">
+      </router-link>
+
+      <router-link to="/comanda" class="menu-item">
         <div class="icon-box">
           <img src="@/assets/images/icon-comanda.png" alt="Comanda" />
         </div>
         <span>Comanda</span>
-      </div>
+      </router-link>
     </div>
+<div class="promotions-carousel">
+  <div
+    class="slides-wrapper"
+    :style="{ transform: `translateX(-${currentIndex * (100 / slidesToShow)}%)` }"
+  >
+    <div class="promo-slide" v-for="(promo, index) in promocoes" :key="index">
+      <img :src="promo.imagem" :alt="promo.titulo" />
+    </div>
+  </div>
 
-    <div class="promotions">
-      <img src="@/assets/images/promo1.png" alt="Promoção 1" />
-      <img src="@/assets/images/promo2.png" alt="Promoção 2" />
-      <img src="@/assets/images/promo3.png" alt="Promoção 3" />
-    </div>
+  <button @click="prevSlide" class="nav prev">‹</button>
+  <button @click="nextSlide" class="nav next">›</button>
+</div>
+
+
+
 
     <div class="about-section">
       <h2>Sobre o Toka Snooker Bar</h2>
@@ -70,7 +86,7 @@
       </div>
 
       <div class="footer-section">
-        <p class="footer-title">📱 Nos siga também nas redes sociais</p>
+        <p class="footer-title"> Nos siga também nas redes sociais</p>
         <div class="social-icons">
           <img src="@/assets/images/insta.png" alt="Instagram" />
           <img src="@/assets/images/facebook.png" alt="Facebook" />
@@ -85,9 +101,45 @@
 </template>
 
 <script>
+import { ref, onMounted, onUnmounted } from "vue";
+import promo1 from "@/assets/images/promo1.png";
+import promo2 from "@/assets/images/promo2.png";
+import promo3 from "@/assets/images/promo3.png";
+
 export default {
-  name: "Home",
+  setup() {
+    const promocoes = ref([
+      { titulo: "Promo 1", imagem: promo1 },
+      { titulo: "Promo 2", imagem: promo2 },
+      { titulo: "Promo 3", imagem: promo3 },
+    ]);
+
+    const currentIndex = ref(0);
+    const slidesToShow = 2; 
+    let intervalId;
+
+    const nextSlide = () => {
+      currentIndex.value =
+        (currentIndex.value + 1) % (promocoes.value.length - slidesToShow + 1);
+    };
+
+    const prevSlide = () => {
+      currentIndex.value =
+        (currentIndex.value - 1 + (promocoes.value.length - slidesToShow + 1)) %
+        (promocoes.value.length - slidesToShow + 1);
+    };
+
+    onMounted(() => {
+      intervalId = setInterval(nextSlide, 3000);
+    });
+
+    onUnmounted(() => clearInterval(intervalId));
+
+    return { promocoes, currentIndex, slidesToShow, nextSlide, prevSlide };
+  },
 };
+
 </script>
+
 
 <style src="./home.css"></style>

@@ -61,8 +61,11 @@
 }
 
 .menu-item {
-  width: 70px;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none; 
+  color: inherit; 
 }
 
 .icon-box {
@@ -113,7 +116,6 @@
   line-height: 1.4;
 }
 
-/* Rodapé */
 .footer {
   background-color: #f0f0f0;
   padding: 16px;
@@ -142,4 +144,53 @@
 .social-icons img {
   width: 24px;
   height: 24px;
+}
+
+.promotions-carousel {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding: 10px 0;
+}
+
+.slides-wrapper {
+  display: flex;
+  transition: transform 0.7s ease-in-out; 
+}
+
+.promo-slide {
+  flex: 0 0 calc(100% / 2 - 8px);
+  margin-right: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.promo-slide img {
+  width: 100%;
+  max-width: 250px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  font-size: 1.8rem;
+  padding: 0.3rem 0.8rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.nav.prev {
+  left: 5px;
+}
+
+.nav.next {
+  right: 5px;
 }
