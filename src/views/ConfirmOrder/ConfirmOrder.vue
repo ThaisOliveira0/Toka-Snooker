@@ -37,7 +37,6 @@
       <button class="confirm" @click="confirmOrder">Confirmar Pedido</button>
     </div>
 
-    <!-- Modal de edição -->
     <div v-if="editingItem" class="modal" @click.self="editingItem = null">
       <div class="modal-content">
         <button class="close" @click="editingItem = null">×</button>
@@ -59,7 +58,6 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import './ConfirmOrder.css'
-
 
 const cart = ref([])
 
@@ -84,8 +82,11 @@ const increaseItem = (item) => {
 const decreaseItem = (item) => {
   if (item.quantity > 1) {
     item.quantity--
-    saveCart()
+  } else {
+    const index = cart.value.findIndex(i => i.id === item.id)
+    if (index !== -1) cart.value.splice(index, 1)
   }
+  saveCart()
 }
 
 const editItem = (item) => {
