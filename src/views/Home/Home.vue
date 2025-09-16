@@ -5,7 +5,11 @@
     </div>
 
     <div class="welcome-section">
-      <img src="@/assets/images/personagem.png" alt="Personagem" class="character" />
+      <img
+        src="@/assets/images/personagem.png"
+        alt="Personagem"
+        class="character"
+      />
       <div class="speech">
         <p class="highlight">
           SEJA BEM-VINDO(A) AO <span class="red-text">TOKA</span> SNOOKER BAR !!
@@ -14,20 +18,12 @@
       </div>
     </div>
 
-    <!-- Menu Buttons -->
     <div class="menu-buttons">
       <router-link to="/menu" class="menu-item">
         <div class="icon-box">
           <img src="@/assets/images/icon-menu.png" alt="Menu" />
         </div>
         <span>Menu</span>
-      </router-link>
-
-      <router-link to="/menu" class="menu-item">
-        <div class="icon-box">
-          <img src="@/assets/images/icon-sinuca.png" alt="Sinuca" />
-        </div>
-        <span>Sinuca</span>
       </router-link>
 
       <router-link to="/karaoke" class="menu-item">
@@ -44,30 +40,34 @@
         <span>Comanda</span>
       </router-link>
     </div>
-<div class="promotions-carousel">
-  <div
-    class="slides-wrapper"
-    :style="{ transform: `translateX(-${currentIndex * (100 / slidesToShow)}%)` }"
-  >
-    <div class="promo-slide" v-for="(promo, index) in promocoes" :key="index">
-      <img :src="promo.imagem" :alt="promo.titulo" />
+    <div class="promotions-carousel">
+      <div
+        class="slides-wrapper"
+        :style="{
+          transform: `translateX(-${currentIndex * (100 / slidesToShow)}%)`,
+        }"
+      >
+        <div
+          class="promo-slide"
+          v-for="(promo, index) in promocoes"
+          :key="index"
+        >
+          <img :src="promo.imagem" :alt="promo.titulo" />
+        </div>
+      </div>
+
+      <button @click="prevSlide" class="nav prev">‹</button>
+      <button @click="nextSlide" class="nav next">›</button>
     </div>
-  </div>
-
-  <button @click="prevSlide" class="nav prev">‹</button>
-  <button @click="nextSlide" class="nav next">›</button>
-</div>
-
-
-
 
     <div class="about-section">
       <h2>Sobre o Toka Snooker Bar</h2>
       <p>
-        Localizado no coração de Santo André, o Toka Snooker Bar é o lugar ideal para quem aprecia
-        uma partida de sinuca, momentos de descontração com amigos e familiares, além de se divertir
-        com sessões animadas de karaokê. Com um ambiente acolhedor e vibrante, oferecemos uma
-        variedade de cervejas e drinks para acompanhar seus momentos de lazer.
+        Localizado no coração de Santo André, o Toka Snooker Bar é o lugar ideal
+        para quem aprecia uma partida de sinuca, momentos de descontração com
+        amigos e familiares, além de se divertir com sessões animadas de
+        karaokê. Com um ambiente acolhedor e vibrante, oferecemos uma variedade
+        de cervejas e drinks para acompanhar seus momentos de lazer.
       </p>
     </div>
 
@@ -86,7 +86,7 @@
       </div>
 
       <div class="footer-section">
-        <p class="footer-title"> Nos siga também nas redes sociais</p>
+        <p class="footer-title">Nos siga também nas redes sociais</p>
         <div class="social-icons">
           <img src="@/assets/images/insta.png" alt="Instagram" />
           <img src="@/assets/images/facebook.png" alt="Facebook" />
@@ -115,7 +115,7 @@ export default {
     ]);
 
     const currentIndex = ref(0);
-    const slidesToShow = 2; 
+    const slidesToShow = 2;
     let intervalId;
 
     const nextSlide = () => {
@@ -138,7 +138,6 @@ export default {
     return { promocoes, currentIndex, slidesToShow, nextSlide, prevSlide };
   },
 };
-
 </script>
 
 

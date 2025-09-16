@@ -8,6 +8,8 @@ import Login from '@/views/Login/Login.vue'
 import SignUp from '@/views/SignUp/SignUp.vue'
 import ForgotPassword from '@/views/ForgotPassword/ForgotPassword.vue'
 import ConfirmOrder from '@/views/ConfirmOrder/ConfirmOrder.vue'
+import EnterCode from '@/views/EnterCode/EnterCode.vue'
+import ResetPassword from '@/views/ResetPassword/ResetPassword.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,11 +20,13 @@ const router = createRouter({
     { path: '/login', name: 'login', component: Login, meta: { public: true } },
     { path: '/cadastro', name: 'signUp', component: SignUp, meta: { public: true } },
     { path: '/recuperar-senha', name: 'forgotPassword', component: ForgotPassword, meta: { public: true } },
+    { path: '/inserir-codigo', name: 'enterCode', component: EnterCode, meta:{ public: true}},
+    { path: '/redefinir-senha', name: 'resetPassword', component: ResetPassword, meta:{ public: true}},
 
     // Privadas
-    { path: '/karaoke', name: 'karaoke', component: Karaoke, meta: { requiresAuth: true } },
-    { path: '/comanda', name: 'tab', component: Tab, meta: { requiresAuth: true } },
-    { path: '/historico', name: 'history', component: History, meta: { requiresAuth: true } },
+    { path: '/karaoke', name: 'karaoke', component: Karaoke, meta: { requiresAuth: false } },
+    { path: '/comanda', name: 'tab', component: Tab, meta: { requiresAuth: false } },
+    { path: '/historico', name: 'history', component: History, meta: { requiresAuth: false } },
     { path: '/confirmar-pedido', name: 'ConfirmOrder', component: ConfirmOrder, meta: { requiresAuth: false } },
   ]
 })
