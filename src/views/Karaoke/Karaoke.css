@@ -11,8 +11,13 @@
 .header {
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
+  background-color: #ccc !important;
+  border-radius: 8px;
+  padding: 12px;
   margin-bottom: 16px;
+  position: relative;
+  color:#4b5563 !important;
 }
 
 .back-button {

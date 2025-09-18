@@ -20,17 +20,6 @@ body {
   font-family: sans-serif;
 }
 
-.menu-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #ccc !important;
-  border-radius: 8px;
-  padding: 12px;
-  margin-bottom: 16px;
-  position: relative;
-}
-
 .menu-header h2 {
   font-family: 'Poppins', sans-serif;
   font-weight: 300;

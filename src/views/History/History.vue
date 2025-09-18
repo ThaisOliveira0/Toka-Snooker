@@ -1,9 +1,8 @@
 <template>
   <div class="historico">
-    <header class="historico-header">
-      <button class="back">&lt;</button>
-      <h2>HISTÓRICO</h2>
-    </header>
+    <Header>
+      HISTÓRICO
+    </Header>
 
     <div class="comanda-lista">
       <div

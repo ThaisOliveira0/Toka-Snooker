@@ -1,9 +1,6 @@
 <template>
   <div class="confirm-order">
-    <header class="header">
-      <button class="back" @click="$router.push({ name: 'menu' })">&lt;</button>
-      <h2>CONFIRMAR PEDIDO</h2>
-    </header>
+    <Header :backRoute="{ name: 'menu' }"> CONFIRMAR PEDIDO </Header>
 
     <div v-if="cart.length === 0" class="empty-cart">
       Seu carrinho está vazio.
@@ -25,15 +22,15 @@
             <span>{{ item.quantity }}</span>
             <button @click="increaseItem(item)">+</button>
           </div>
-          <button class="edit" @click="editItem(item)">Editar Ingredientes</button>
+          <button class="edit" @click="editItem(item)">
+            Editar Ingredientes
+          </button>
         </div>
       </div>
     </div>
 
     <div class="total-section" v-if="cart.length">
-      <div class="total">
-        Total: R$ {{ total.toFixed(2) }}
-      </div>
+      <div class="total">Total: R$ {{ total.toFixed(2) }}</div>
       <button class="confirm" @click="confirmOrder">Confirmar Pedido</button>
     </div>
 
@@ -56,55 +53,56 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import './ConfirmOrder.css'
+import { ref, computed, onMounted } from "vue";
+import Header from "@/components/layout/Header.vue";
+import "./ConfirmOrder.css";
 
-const cart = ref([])
+const cart = ref([]);
 
-const editingItem = ref(null)
+const editingItem = ref(null);
 
 onMounted(() => {
-  const storedCart = localStorage.getItem('cart')
+  const storedCart = localStorage.getItem("cart");
   if (storedCart) {
-    cart.value = JSON.parse(storedCart)
+    cart.value = JSON.parse(storedCart);
   }
-})
+});
 
 const total = computed(() => {
-  return cart.value.reduce((sum, item) => sum + item.price * item.quantity, 0)
-})
+  return cart.value.reduce((sum, item) => sum + item.price * item.quantity, 0);
+});
 
 const increaseItem = (item) => {
-  item.quantity++
-  saveCart()
-}
+  item.quantity++;
+  saveCart();
+};
 
 const decreaseItem = (item) => {
   if (item.quantity > 1) {
-    item.quantity--
+    item.quantity--;
   } else {
-    const index = cart.value.findIndex(i => i.id === item.id)
-    if (index !== -1) cart.value.splice(index, 1)
+    const index = cart.value.findIndex((i) => i.id === item.id);
+    if (index !== -1) cart.value.splice(index, 1);
   }
-  saveCart()
-}
+  saveCart();
+};
 
 const editItem = (item) => {
-  editingItem.value = item
-}
+  editingItem.value = item;
+};
 
 const saveEdit = () => {
-  editingItem.value = null
-  saveCart()
-}
+  editingItem.value = null;
+  saveCart();
+};
 
 const confirmOrder = () => {
-  alert('Pedido confirmado!')
-  localStorage.removeItem('cart')
-  cart.value = []
-}
+  alert("Pedido confirmado!");
+  localStorage.removeItem("cart");
+  cart.value = [];
+};
 
 const saveCart = () => {
-  localStorage.setItem('cart', JSON.stringify(cart.value))
-}
+  localStorage.setItem("cart", JSON.stringify(cart.value));
+};
 </script>

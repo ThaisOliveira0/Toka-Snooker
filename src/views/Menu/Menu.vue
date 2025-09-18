@@ -1,10 +1,9 @@
 <template> 
   <div class="menu">
 
-    <header class="menu-header">
-      <button @click="$router.push({ name: 'home' })" class="menu-back-button">&lt;</button>
-      <h2>CARDÁPIO</h2>
-    </header>
+    <Header>
+      CARDÁPIO
+    </Header>
 
     <div class="menu-tabs">
       <button 
@@ -67,6 +66,7 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
+import Header from '@/components/layout/Header.vue'
 import "./menu.css"
 
 const tabs = ref(['Lanches', 'Coquetéis', 'Doses e Drinks'])

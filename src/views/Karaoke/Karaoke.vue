@@ -1,11 +1,8 @@
 <template>
   <div class="container">
-    <div class="header">
-      <button @click="$router.push({ name: 'home' })" class="back-button">
-        <i class="fas fa-arrow-left"></i>
-      </button>
-      <h1 class="title">KARAOKÊ <i class="fas fa-microphone"></i></h1>
-    </div>
+    <Header>
+      CARDÁPIO
+    </Header>
 
     <div class="status-card">
       <p class="status-text">
@@ -64,6 +61,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import '@fortawesome/fontawesome-free/css/all.css'
+import Header from '@/components/layout/Header.vue'
 import './karaoke.css'
 
 const search = ref('')

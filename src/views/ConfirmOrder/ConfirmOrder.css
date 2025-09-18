@@ -14,33 +14,6 @@
   box-sizing: border-box;
 }
 
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #ccc;
-  border-radius: 8px;
-  padding: 12px;
-  margin-bottom: 16px;
-  position: relative;
-}
-
-.header h2 {
-  font-weight: 300;
-  font-size: 22px;
-  color: #333;
-}
-
-.header .back {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-}
 
 .empty-cart {
   text-align: center;
