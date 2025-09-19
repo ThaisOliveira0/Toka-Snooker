@@ -12,7 +12,7 @@
       />
       <div class="speech">
         <p class="highlight">
-          SEJA BEM-VINDO(A) AO <span class="red-text">TOKA</span> SNOOKER BAR !!
+          SEJA BEM-VINDO(A) AO <span class="green-text">TOKA</span> SNOOKER BAR !!
         </p>
         <p class="subtitle">Onde a Música Encontra a Tacada Perfeita!</p>
       </div>
