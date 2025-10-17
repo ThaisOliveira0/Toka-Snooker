@@ -24,7 +24,7 @@ const router = createRouter({
     { path: '/redefinir-senha', name: 'resetPassword', component: ResetPassword, meta:{ public: true}},
 
     // Privadas
-    { path: '/karaoke', name: 'karaoke', component: Karaoke, meta: { requiresAuth: true } },
+    { path: '/karaoke', name: 'karaoke', component: Karaoke, meta: { requiresAuth: false } },
     { path: '/comanda', name: 'tab', component: Tab, meta: { requiresAuth: false } },
     { path: '/historico', name: 'history', component: History, meta: { requiresAuth: false } },
     { path: '/confirmar-pedido', name: 'ConfirmOrder', component: ConfirmOrder, meta: { requiresAuth: false } },

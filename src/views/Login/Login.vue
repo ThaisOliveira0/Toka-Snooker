@@ -40,14 +40,15 @@
 
 <script>
 import './Login.css'
+import { login } from "@/service/authService.js";
 
 export default {
   data() {
     return {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       showPassword: false,
-      errorMessage: ''
+      errorMessage: "",
     };
   },
   methods: {
@@ -55,33 +56,33 @@ export default {
       this.showPassword = !this.showPassword;
     },
 
-    handleLogin() {
-      // Simulando dados vindos do backend
-      const fakeUser = {
-        email: "teste@bar.com",
-        password: "123456",
-        token: "fake-jwt-token-123"
-      };
+    async handleLogin() {
+      try {
+        const response = await login({
+          email: this.email,
+          senha: this.password, 
+        });
 
-      if (this.email === fakeUser.email && this.password === fakeUser.password) {
-        // Salva o token como se fosse do backend
-        localStorage.setItem("token", fakeUser.token);
-        localStorage.setItem("user", JSON.stringify({ email: fakeUser.email }));
+        const token = response.data.token;
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify({ email: this.email }));
 
-        // Redireciona para rota protegida (karaokê por exemplo)
         this.$router.push({ name: "karaoke" });
-      } else {
-        this.errorMessage = "E-mail ou senha inválidos!";
+      } catch (error) {
+        console.error("Erro no login:", error);
+        this.errorMessage =
+          error.response?.data?.error || "E-mail ou senha inválidos!";
       }
     },
 
     goToRegister() {
-      this.$router.push('/cadastro');
+      this.$router.push("/cadastro");
     },
 
     goToForgot() {
-      this.$router.push('/recuperar-senha');
-    }
+      this.$router.push("/recuperar-senha");
+    },
   },
 };
+
 </script>
