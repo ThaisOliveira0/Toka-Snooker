@@ -18,10 +18,10 @@
         <input type="text" v-model="name" placeholder="Nome completo" required />
       </div>
 
-      <div class="signup-input-group">
+      <!-- <div class="signup-input-group">
         <font-awesome-icon icon="id-card" />
         <input type="text" v-model="cpf" placeholder="CPF" maxlength="14" required />
-      </div>
+      </div> -->
 
       <div class="signup-input-group">
         <font-awesome-icon icon="envelope" />
@@ -60,7 +60,9 @@
 
 
 <script>
-    import './SignUp.css'
+import './SignUp.css'
+import { register } from '@/service/authService.js'
+
 export default {
   data() {
     return {
@@ -72,6 +74,7 @@ export default {
       confirmPassword: '',
       showPassword: false,
       showConfirmPassword: false,
+      errorMessage: ''
     };
   },
   methods: {
@@ -81,21 +84,29 @@ export default {
     toggleConfirmPassword() {
       this.showConfirmPassword = !this.showConfirmPassword;
     },
-    handleRegister() {
+    async handleRegister() {
       if (this.password !== this.confirmPassword) {
         alert('As senhas não conferem!');
         return;
       }
-      console.log('Cadastro:', {
-        name: this.name,
-        cpf: this.cpf,
-        email: this.email,
-        phone: this.phone,
-        password: this.password,
-      });
-    },
-  },
+
+      try {
+        const userData = {
+          nome: this.name,
+          email: this.email,
+          telefone: this.phone,
+          senha: this.password,
+          tipo_usuario: 'CLIENTE'  
+        };
+
+        const response = await register(userData);
+        alert('Cadastro realizado com sucesso!');
+        this.$router.push({ name: 'login' });
+      } catch (error) {
+        console.error('Erro no cadastro:', error);
+        this.errorMessage = error.response?.data?.message || 'Erro ao cadastrar usuário!';
+      }
+    }
+  }
 };
 </script>
-
-

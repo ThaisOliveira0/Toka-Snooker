@@ -58,20 +58,11 @@ export default {
 
     async handleLogin() {
       try {
-        const response = await login({
-          email: this.email,
-          senha: this.password, 
-        });
-
-        const token = response.data.token;
-        localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify({ email: this.email }));
-
-        this.$router.push({ name: "karaoke" });
+        const response = await login(this.email, this.password);
+        this.$router.push("/menu");
       } catch (error) {
         console.error("Erro no login:", error);
-        this.errorMessage =
-          error.response?.data?.error || "E-mail ou senha inválidos!";
+        this.errorMessage = "E-mail ou senha inválidos!";
       }
     },
 
@@ -84,5 +75,4 @@ export default {
     },
   },
 };
-
 </script>

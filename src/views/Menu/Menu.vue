@@ -122,7 +122,6 @@ const items = ref([
   }
 ])
 
-// Modal
 const openModal = (item) => {
   selectedItem.value = item
 }
@@ -150,7 +149,6 @@ const decreaseItem = (item) => {
   if (item.quantity > 0) item.quantity--
 }
 
-// Computed do carrinho
 const cart = computed(() => {
   return items.value.filter(item => item.quantity > 0)
 })
@@ -159,7 +157,6 @@ const cartTotal = computed(() => {
   return cart.value.reduce((sum, item) => sum + item.price * item.quantity, 0)
 })
 
-// 🔹 Sempre que o carrinho mudar, salvar no localStorage
 watch(cart, (newCart) => {
   localStorage.setItem('cart', JSON.stringify(newCart))
 }, { deep: true })
