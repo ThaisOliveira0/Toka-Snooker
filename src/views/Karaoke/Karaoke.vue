@@ -1,17 +1,17 @@
 <template>
   <div class="container">
     <Header>
-      CARDÁPIO
+      KARAOKE
     </Header>
 
-    <div class="status-card">
+    <!-- <div class="status-card">
       <p class="status-text">
         Sua posição na fila: <span class="status-position">5</span>
       </p>
       <p class="status-text">
         Tempo estimado de espera: <span class="status-time">15min 20s</span>
       </p>
-    </div>
+    </div> -->
 
     <div class="search-box">
       <input
@@ -82,7 +82,7 @@ const filteredSongs = computed(() =>
 )
 
 const bgColor = (index) => {
-  const colors = ['bg-yellow', 'bg-blue', 'bg-green', 'bg-red', 'bg-yellow']
+  const colors = [ 'bg-green', 'bg-gray',]
   return colors[index % colors.length]
 }
 </script>

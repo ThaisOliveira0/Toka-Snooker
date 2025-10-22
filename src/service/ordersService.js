@@ -32,29 +32,3 @@ export function getOrdersHistory() {
   return api.get("/orders/history");
 }
 
-//  CARRINHO 
-
-// itens do carrinho
-export function getCart() {
-  return api.get("/cart");
-}
-
-// Adicionar item ao carrinho
-export function addToCart(data) {
-  return api.post("/cart", data);
-}
-
-// Atualizar item do carrinho
-export function updateCartItem(itemId, data) {
-  return api.put(`/cart/${itemId}`, data);
-}
-
-// Remover item do carrinho
-export function removeCartItem(itemId) {
-  return api.delete(`/cart/${itemId}`);
-}
-
-// Limpar carrinho
-export function clearCart() {
-  return api.delete("/cart");
-}
