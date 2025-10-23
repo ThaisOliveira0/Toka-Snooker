@@ -2,6 +2,9 @@
   <div class="home-container">
     <div class="header">
       <img src="@/assets/images/logo.png" alt="Logo" class="logo" />
+       <router-link to="/login" class="login-icon">
+        <i class="fas fa-user"></i>
+      </router-link>
     </div>
 
     <div class="welcome-section">
