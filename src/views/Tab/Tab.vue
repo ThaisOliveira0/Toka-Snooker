@@ -1,8 +1,10 @@
 <template>
-  <div class="tab-container">
-    <Header> COMANDA </Header>
+  <div class="table-card">
+    <Header>COMANDA</Header>
 
-    <div class="top-info">
+    <h3 class="table-title">Mesa 12</h3>
+
+    <div class="section top-info">
       <div>
         <p class="label">TOTAL A PAGAR</p>
         <p class="value">R$ 51,00</p>
@@ -11,53 +13,65 @@
         <p class="label">DATA</p>
         <p class="value">08/03/2025</p>
       </div>
-      <div>
-        <p class="label">MESA</p>
-        <p class="value">12</p>
-      </div>
     </div>
 
-    <!-- <h2 class="finalizada">COMANDA FINALIZADA</h2> -->
+    <div class="section pedidos">
+      <h4>PEDIDOS</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>ITEM</th>
+            <th>QTDE</th>
+            <th>VALOR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>X-Tudo</td>
+            <td class="center">1</td>
+            <td class="right">R$ 25,00</td>
+          </tr>
+          <tr>
+            <td>X-Burguer</td>
+            <td class="center">1</td>
+            <td class="right">R$ 20,00</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="right"><strong>Total:</strong></td>
+            <td class="right">R$ 45,00</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-    <section class="box pedidos">
-      <h3 class="title-order">PEDIDOS</h3>
-      <div class="table-header">
-        <span>ITEM</span>
-        <span>QTDE</span>
-        <span>VALOR</span>
-      </div>
-      <div class="table-row">
-        <span>X-Tudo</span>
-        <span>1</span>
-        <span>R$ 25,00</span>
-      </div>
-      <div class="table-row">
-        <span>X-Burguer</span>
-        <span>1</span>
-        <span>R$ 20,00</span>
-      </div>
-      <p class="total">Total: R$ 45,00</p>
-    </section>
-
-    <section class="box karaoke">
-      <h3 class="title-kareoke">KARAOKE</h3>
-      <div class="table-header">
-        <span>MÚSICA</span>
-        <span>QTDE</span>
-        <span>VALOR</span>
-      </div>
-      <div class="table-row">
-        <span>Girls just wanna have fun</span>
-        <span>1</span>
-        <span>R$ 3,00</span>
-      </div>
-      <div class="table-row">
-        <span>Evidências</span>
-        <span>1</span>
-        <span>R$ 3,00</span>
-      </div>
-      <p class="total">Total: R$ 6,00</p>
-    </section>
+    <div class="section musica-pedido">
+      <h4>KARAOKÊ</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>MÚSICA</th>
+            <th>QTDE</th>
+            <th>VALOR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Girls just wanna have fun</td>
+            <td class="center">1</td>
+            <td class="right">R$ 3,00</td>
+          </tr>
+          <tr>
+            <td>Evidências</td>
+            <td class="center">1</td>
+            <td class="right">R$ 3,00</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="right"><strong>Total:</strong></td>
+            <td class="right">R$ 6,00</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
   
