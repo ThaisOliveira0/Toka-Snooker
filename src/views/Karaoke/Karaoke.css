@@ -1,160 +1,98 @@
 .container {
-  width: 100%;
-  height: 100%;
-  max-width: 900px;
-  margin: auto;
-  padding: 15px;
-  background: linear-gradient(145deg, #ffffff, #f3f4f6);
-  border-radius: 20px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+  width: 100vw;
+  height: 90vh; 
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  transition: all 0.3s ease;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 32px;
-  font-weight: 700;
-  color: #111827;
-  text-align: center;
-  letter-spacing: 1px;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
-  background-color: #ffffff !important;
-  border-radius: 8px;
-  padding: 12px;
-  margin-bottom: 16px;
-  position: relative;
-}
-
-.back-button {
-  font-size: 20px;
-  color: #4b5563;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.back-button:hover {
-  text-decoration: underline;
-}
-
-.status-card {
-  background: #fef3c7;
+  align-items: stretch;
+  background: linear-gradient(145deg, #1d1f1e, #9eb9a5);
+  font-family: 'Inter', sans-serif;
   padding: 20px;
-  border-radius: 16px;
-  display: flex;
-  justify-content: space-around;
-  font-weight: 600;
-  font-size: 16px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  transition: all 0.3s ease;
-}
-
-.status-text {
-  font-size: 14px;
-  margin: 4px 0;
-}
-
-.status-position {
-  font-weight: bold;
-  font-size: 22px;
-  color: #b45309;
-}
-
-.status-time {
-  font-size: 22px;
-  color: #065f46;
-  font-weight: 600;
+  box-sizing: border-box;
+  overflow: hidden; 
 }
 
 .search-box {
+  width: 100%;
+  max-width: 900px;
   display: flex;
   align-items: center;
+  background: #f1f5f9;
   border-radius: 9999px;
-  overflow: hidden;
-  margin-bottom: 16px;
-  background: #f3f4f6;
-  padding: 4px;
-  transition: box-shadow 0.3s ease;
+  padding: 6px 10px;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  margin-top: 10px;
 }
 
 .search-box:focus-within {
-  box-shadow: 0 0 0 2px #10b981;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.3);
 }
 
 .search-input {
   flex: 1;
-  padding: 12px 16px;
   border: none;
   outline: none;
-  font-size: 14px;
+  padding: 14px 16px;
   background: transparent;
+  font-size: 15px;
+  color: #1e293b;
 }
 
 .search-button {
-  background: #22c55e;
+  background: #16a34a;
   color: white;
   border: none;
-  cursor: pointer;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 45px; 
-  height: 45px;
-  border-radius: 50%; 
-  padding: 0; 
-  transition: background 0.3s ease;
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
 
 .search-button:hover {
-  background: #16a34a;
-}
-
-.search-button svg {
-  width: 18px; 
-  height: 18px;
+  background: #15803d;
 }
 
 .song-list {
+  width: 100%;
+  max-width: 900px;
+  flex: 1; 
+  overflow-y: auto; 
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 14px;
+  padding: 10px 0;
+  scroll-behavior: smooth;
+  margin-top: 20px;
+}
+
+.song-list::-webkit-scrollbar {
+  width: 8px;
+}
+.song-list::-webkit-scrollbar-thumb {
+  background: #22c55e;
+  border-radius: 8px;
 }
 
 .song-card {
-  padding: 16px;
+  background: #ffffff;
   border-radius: 16px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  padding: 20px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  background: white;
+  flex-shrink: 0;
 }
 
 .song-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
-}
-
-.bg-gray { background: #a8a0a0; }
-.bg-green { background: #cdf0da; }
-
-.selected {
-  border: 2px solid #116448;
-  background: #a6f587;
-  animation: pulse 1s infinite alternate;
-}
-
-@keyframes pulse {
-  0% { box-shadow: 0 0 0px rgba(16,185,129,0.4); }
-  100% { box-shadow: 0 0 10px rgba(16,185,129,0.6); }
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .song-info {
@@ -163,78 +101,110 @@
   gap: 16px;
 }
 
-.song-radio {
-  margin-top: 4px;
-}
-
 .song-name {
-  font-size: 16px;
   font-weight: 700;
-  line-height: 1.2;
+  font-size: 17px;
+  color: #000000;
 }
 
 .song-singer {
-  font-size: 12px;
-  color: #6b7280;
+  font-size: 13px;
+  color: #64748b;
 }
 
 .song-length {
-  font-size: 12px;
+  font-size: 13px;
+  color: #334155;
   font-weight: 500;
   text-align: right;
 }
 
 .selected-music {
-  margin-top: 16px;
-  padding: 16px;
-  background: #dcfce7;
+  margin-top: 20px;
+  background: #f0fdf4;
   border-radius: 16px;
-  text-align: center;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  font-weight: 600;
+  padding: 16px 20px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  transition: all 0.3s ease;
+  align-items: center; 
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  gap: 20px;
+}
+
+.selected-music p {
+  margin: 0;
+  line-height: 1.4;
+  font-size: 15px;
+  color: #14532d;
+}
+
+.selected-info {
+  display: flex;
+  flex-direction: column;
 }
 
 .confirm-button {
-  margin-top: 8px;
-  padding: 10px 20px;
-  background: #10b981;
+  background: #22c55e;
   color: white;
   border: none;
   border-radius: 9999px;
-  cursor: pointer;
+  padding: 10px 20px;
   font-weight: 700;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+  cursor: pointer;
   transition: background 0.3s, transform 0.2s;
+  white-space: nowrap;
 }
 
 .confirm-button:hover {
-  background: #059669;
+  background: #16a34a;
   transform: scale(1.05);
 }
 
-.confirm-button i,
-.search-button i {
-  font-size: 14px;
+.custom-radio {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
 }
 
-.container {
-  animation: fadeIn 0.6s ease;
+.custom-radio input {
+  opacity: 0;
+  position: absolute;
+  width: 0;
+  height: 0;
+  margin: 0;
+}
+
+.radio-mark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  border: 2px solid #22c55e;
+  background-color: white;
+  transition: background 0.3s, border 0.3s;
+}
+
+.custom-radio input:checked + .radio-mark {
+  background-color: #22c55e; 
+  border-color: #16a34a;
+}
+
+.selected {
+  border: 2px solid #22c55e;
+  background: #ecfdf5;
+  animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 rgba(34, 197, 94, 0.4); }
+  100% { box-shadow: 0 0 10px rgba(34, 197, 94, 0.6); }
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }

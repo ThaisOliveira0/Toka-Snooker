@@ -32,14 +32,17 @@
         :class="['song-card', bgColor(index), selected === song.name ? 'selected' : '']"
         @click="selected = song.name"
       >
+
         <div class="song-info">
-          <input
-            type="radio"
-            name="musica"
-            :value="song.name"
-            v-model="selected"
-            class="song-radio"
-          />
+          <label class="custom-radio">
+            <input
+              type="radio"
+              name="musica"
+              :value="song.name"
+              v-model="selected"
+            />
+            <span class="radio-mark"></span>
+          </label>
           <div>
             <p class="song-name">{{ song.name }}</p>
             <p class="song-singer">{{ song.singer }}</p>
@@ -50,7 +53,10 @@
     </div>
 
     <div v-if="selected" class="selected-music">
-      <p>Música selecionada: <strong>{{ selected }}</strong></p>
+      <div class="selected-info">
+        <p>Música selecionada:</p>
+        <p><strong>{{ selected }}</strong></p>
+      </div>
       <button class="confirm-button">
         <i class="fas fa-check"></i> Confirmar
       </button>
@@ -68,11 +74,26 @@ const search = ref('')
 const selected = ref('')
 
 const songs = ref([
-  { name: 'Casca de Bala', singer: 'Thullio Milionário', length: '03:45' },
-  { name: 'Pane no Sistema', singer: 'Grego, Paulo Pires, EaBest', length: '03:20' },
-  { name: 'Blinding Lights', singer: 'The Weeknd', length: '02:50' },
-  { name: 'Someone You Loved', singer: 'Lewis Capaldi', length: '03:10' },
-  { name: 'Coração Partido', singer: 'Desconhecido', length: '03:40' }
+  { "name": "Shape of You", "singer": "Ed Sheeran", "length": "03:53" },
+  { "name": "Levitating", "singer": "Dua Lipa", "length": "03:23" },
+  { "name": "Peaches", "singer": "Justin Bieber", "length": "03:18" },
+  { "name": "Drivers License", "singer": "Olivia Rodrigo", "length": "04:02" },
+  { "name": "Bad Habits", "singer": "Ed Sheeran", "length": "03:51" },
+  { "name": "Stay", "singer": "The Kid LAROI, Justin Bieber", "length": "02:21" },
+  { "name": "Good 4 U", "singer": "Olivia Rodrigo", "length": "02:58" },
+  { "name": "Save Your Tears", "singer": "The Weeknd", "length": "03:35" },
+  { "name": "Montero", "singer": "Lil Nas X", "length": "02:18" },
+  { "name": "Butter", "singer": "BTS", "length": "02:44" },
+  { "name": "Blinding Lights", "singer": "The Weeknd", "length": "03:20" },
+  { "name": "Industry Baby", "singer": "Lil Nas X, Jack Harlow", "length": "03:32" },
+  { "name": "Kiss Me More", "singer": "Doja Cat, SZA", "length": "03:28" },
+  { "name": "As It Was", "singer": "Harry Styles", "length": "02:47" },
+  { "name": "Shivers", "singer": "Ed Sheeran", "length": "03:27" },
+  { "name": "Heat Waves", "singer": "Glass Animals", "length": "03:58" },
+  { "name": "Easy On Me", "singer": "Adele", "length": "03:45" },
+  { "name": "Stay With Me", "singer": "Sam Smith", "length": "02:52" },
+  { "name": "Savage Love", "singer": "Jawsh 685, Jason Derulo", "length": "02:51" },
+  { "name": "Happier Than Ever", "singer": "Billie Eilish", "length": "04:58" }
 ])
 
 const filteredSongs = computed(() =>
