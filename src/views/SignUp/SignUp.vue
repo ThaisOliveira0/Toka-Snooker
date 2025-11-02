@@ -36,21 +36,16 @@
       <div class="signup-input-group">
         <font-awesome-icon icon="lock" />
         <input :type="showPassword ? 'text' : 'password'" v-model="password" placeholder="Senha" required />
-        <font-awesome-icon
-          @click="togglePassword"
-          :icon="showPassword ? 'eye-slash' : 'eye'"
-          class="signup-toggle-eye"
-        />
+        <font-awesome-icon @click="togglePassword" :icon="showPassword ? 'eye-slash' : 'eye'"
+          class="signup-toggle-eye" />
       </div>
 
       <div class="signup-input-group">
         <font-awesome-icon icon="lock" />
-        <input :type="showConfirmPassword ? 'text' : 'password'" v-model="confirmPassword" placeholder="Confirmar senha" required />
-        <font-awesome-icon
-          @click="toggleConfirmPassword"
-          :icon="showConfirmPassword ? 'eye-slash' : 'eye'"
-          class="signup-toggle-eye"
-        />
+        <input :type="showConfirmPassword ? 'text' : 'password'" v-model="confirmPassword" placeholder="Confirmar senha"
+          required />
+        <font-awesome-icon @click="toggleConfirmPassword" :icon="showConfirmPassword ? 'eye-slash' : 'eye'"
+          class="signup-toggle-eye" />
       </div>
 
       <button class="signup-button" type="submit">Cadastrar</button>
@@ -91,17 +86,16 @@ export default {
       }
 
       try {
-        const userData = {
-          nome: this.name,
-          email: this.email,
-          telefone: this.phone,
-          senha: this.password,
-          tipo_usuario: 'CLIENTE'  
-        };
-
-        const response = await register(userData);
+        const response = await register(
+          this.name,
+          this.email,
+          this.phone,
+          this.password,
+          'CLIENTE'
+        );
         alert('Cadastro realizado com sucesso!');
         this.$router.push({ name: 'login' });
+
       } catch (error) {
         console.error('Erro no cadastro:', error);
         this.errorMessage = error.response?.data?.message || 'Erro ao cadastrar usuário!';

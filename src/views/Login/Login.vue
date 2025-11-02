@@ -58,11 +58,18 @@ export default {
 
     async handleLogin() {
       try {
-        const response = await login(this.email, this.password);
-        this.$router.push("/menu");
+        const { token } = await login(this.email, this.password);
+
+        if (token) {
+          sessionStorage.setItem("token", token);
+          this.$router.push("/menu");
+        } else {
+          this.errorMessage = "Erro ao fazer login. Tente novamente.";
+        }
       } catch (error) {
         console.error("Erro no login:", error);
-        this.errorMessage = "E-mail ou senha inválidos!";
+        this.errorMessage =
+          error.response?.data?.mensagem || "E-mail ou senha inválidos!";
       }
     },
 

@@ -65,66 +65,18 @@
 
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import Header from '@/components/layout/Header.vue'
+import orderService from "@/service/ordersService.js";
 import "./menu.css"
 
-const tabs = ref(['Lanches', 'Coquetéis', 'Doses e Drinks'])
+const tabs = ref(['Cervejas', 'Coquetéis', 'Doses e Drinks'])
 const selectedItem = ref(null)
-const activeTab = ref('Lanches')
+const activeTab = ref('Cervejas')
 
-const items = ref([
-  {
-    id: 1,
-    category: 'Lanches',
-    name: 'X-Tudo',
-    subtitle: 'pão com tudo que tem num x-tudo',
-    price: 25,
-    icon: 'https://img.icons8.com/emoji/48/hamburger-emoji.png',
-    image: 'https://via.placeholder.com/150',
-    description: 'O X-Tudo é um lanche completo...',
-    quantity: 0,
-    ingredients: [
-      { name: 'Bacon', selected: true },
-      { name: 'Queijo', selected: true },
-      { name: 'Alface', selected: true }
-    ]
-  },
-  {
-    id: 2,
-    category: 'Coquetéis',
-    name: 'Mojito',
-    subtitle: 'drink alcoólico',
-    price: 25,
-    icon: 'https://img.icons8.com/color/48/cocktail.png',
-    image: 'https://via.placeholder.com/150',
-    description: 'Mojito é um coquetel cubano refrescante...',
-    quantity: 0,
-    ingredients: [
-      { name: 'Rum', selected: true },
-      { name: 'Hortelã', selected: true }
-    ]
-  },
-  {
-    id: 3,
-    category: 'Doses e Drinks',
-    name: 'Caipirinha',
-    subtitle: 'clássico brasileiro',
-    price: 20,
-    icon: 'https://img.icons8.com/color/48/lime.png',
-    image: 'https://via.placeholder.com/150',
-    description: 'Caipirinha feita com cachaça, limão, açúcar e gelo.',
-    quantity: 0,
-    ingredients: [
-      { name: 'Limão', selected: true },
-      { name: 'Açúcar', selected: true }
-    ]
-  }
-])
+const items = ref([])
 
-const openModal = (item) => {
-  selectedItem.value = item
-}
+const openModal = (item) => selectedItem.value = item
 
 const scrollToCategory = (category) => {
   activeTab.value = category
@@ -141,23 +93,36 @@ const groupedItems = computed(() => {
   return groups
 })
 
-const addItem = (item) => {
-  item.quantity++
-}
+const addItem = (item) => item.quantity = (item.quantity || 0) + 1
+const decreaseItem = (item) => { if (item.quantity > 0) item.quantity-- }
 
-const decreaseItem = (item) => {
-  if (item.quantity > 0) item.quantity--
-}
-
-const cart = computed(() => {
-  return items.value.filter(item => item.quantity > 0)
-})
-
-const cartTotal = computed(() => {
-  return cart.value.reduce((sum, item) => sum + item.price * item.quantity, 0)
-})
+const cart = computed(() => items.value.filter(item => item.quantity > 0))
+const cartTotal = computed(() => cart.value.reduce((sum, item) => sum + item.price * item.quantity, 0))
 
 watch(cart, (newCart) => {
   localStorage.setItem('cart', JSON.stringify(newCart))
 }, { deep: true })
+
+onMounted(async () => {
+  try {
+    const response = await orderService.getAllProdutos() 
+    const produtos = response.data 
+    items.value = produtos.map(p => ({
+      id: p.id,
+      name: p.nome,
+      subtitle: p.descricao,
+      price: p.promo && p.promo > 0 ? p.preco_promo : p.preco,
+      icon: `/images/${p.foto}`, 
+      image: `/images/${p.foto}`,
+      description: p.descricao,
+      category: p.categoria,
+      quantity: 0
+    }))
+    
+    tabs.value = [...new Set(items.value.map(i => i.category))]
+    
+  } catch (err) {
+    console.error("Erro ao carregar produtos:", err)
+  }
+})
 </script>

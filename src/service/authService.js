@@ -1,63 +1,75 @@
-import api from "./api";
-import jwt_decode from "jwt-decode";
+import axios from 'axios';
+import jwt_decode from 'jwt-decode'; 
+
+const API_URL = 'http://localhost:3000';
 
 export async function login(email, senha) {
   try {
-    const response = await api.post("/login", { email, senha });
+    const response = await axios.post(`${API_URL}/login`, { email, senha });
 
     if (response.data.token) {
       const token = response.data.token;
-
-      sessionStorage.setItem("token", token);
+      sessionStorage.setItem('token', token);
 
       const decoded = jwt_decode(token);
-      const { id, role } = decoded;
-
-      sessionStorage.setItem("userId", id);
-      sessionStorage.setItem("userRole", role);
+      const { id, role } = decoded;  
 
       return { token, id, role };
     }
-
     return response.data;
   } catch (error) {
-    console.error("Erro ao fazer login:", error.response?.data || error);
+    console.error('Erro ao fazer login:', error.response.data || error);
     throw error;
   }
 }
 
-export async function register(userData) {
+export async function register(nome, email, telefone, senha, tipo_usuario) {
   try {
-    const data = {
-      ...userData
-    };
-
-    const response = await api.post("/usuarios", data);
-    console.log(response);
+    const response = await axios.post(`${API_URL}/usuarios`, {
+      nome,
+      email,
+      telefone,
+      senha,
+      tipo_usuario
+    });
     return response.data;
   } catch (error) {
-    console.error("Erro ao cadastrar:", error.response?.data || error);
+    console.error('Erro ao cadastrar:', error.response?.data || error);
     throw error;
   }
 }
 
-
-export function forgotPassword(email) {
-  return api.post("/auth/forgot-password", { email });
+export function getToken() {
+  return sessionStorage.getItem('token');
 }
 
-export function verifyCode(code) {
-  return api.post("/auth/verify-code", { code });
-}
+export function getDecodedToken() {
+  const token = getToken();
+  if (!token) return null;
 
-export function resetPassword(data) {
-  return api.post("/auth/reset-password", data);
+  try {
+    return jwt_decode(token);
+  } catch {
+    return null;
+  }
 }
 
 export function logout() {
-  return api.post("/auth/logout");
+  sessionStorage.removeItem('token');
 }
 
-export function me() {
-  return api.get("/auth/me");
+export async function sendCode(email) {
+  const response = await axios.post(`${API_URL}/login/recuperacao`, { email })
+  return response.data
 }
+
+export async function verifyCode(email, codigo) {
+  const response = await axios.post(`${API_URL}/login/verificar-codigo`, { email, codigo })
+  return response.data
+}
+
+export async function resetPassword(id, senha) {
+  const response = await axios.put(`${API_URL}/login/alterar-senha/${id}`, { senha })
+  return response.data
+}
+

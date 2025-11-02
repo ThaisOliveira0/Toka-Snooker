@@ -8,35 +8,88 @@
 
     <h2 class="verify-title">VERIFICAÇÃO DE CÓDIGO</h2>
     <p class="verify-text">
-      Informe o código de verificação enviado para o seu e-mail:
+      Informe o código de verificação enviado para o seu e-mail: <strong>{{ email }}</strong>
     </p>
 
-    <input
-      type="text"
-      placeholder="Digite o código"
-      class="input-code"
-      v-model="code"
-    />
-    <button class="verify-button" @click="EnterCodeCode">VERIFICAR</button>
+    <div class="code-inputs">
+      <input v-for="(digit, index) in codeDigits" :key="index" type="text" maxlength="1" class="code-box"
+        v-model="codeDigits[index]" @input="focusNext(index)" @keydown.backspace="focusPrev(index, $event)" />
+    </div>
 
-    <a href="/login" class="back-link">Voltar para a tela de login!</a>
+    <button class="verify-button" @click="handleVerify">
+      VERIFICAR
+    </button>
+
+    <p v-if="message" class="verify-message">{{ message }}</p>
+    <p v-if="error" class="verify-error">{{ error }}</p>
+
+    <a href="/login" class="back-link">Voltar para o login</a>
   </div>
 </template>
 
 <script>
+import { ref, onMounted } from "vue";
+import { verifyCode } from "@/service/authService.js";
+import { useRoute, useRouter } from "vue-router";
+import './EnterCode.css'
+
 export default {
   name: "EnterCode",
-  data() {
-    return {
-      code: "",
+  setup() {
+    const route = useRoute();
+    const router = useRouter();
+
+    const email = ref("");
+    const codeDigits = ref(["", "", "", "", "", ""]);
+    const message = ref("");
+    const error = ref("");
+
+    onMounted(() => {
+      email.value = sessionStorage.getItem("recoveryEmail") || "";
+    });
+
+
+    const focusNext = (index) => {
+      if (codeDigits.value[index].length === 1 && index < 5) {
+        const nextInput = document.querySelectorAll(".code-box")[index + 1];
+        nextInput.focus();
+      }
     };
-  },
-  methods: {
-    verifyCode() {
-      console.log("Código digitado:", this.code);
-    },
+
+    const focusPrev = (index, event) => {
+      if (codeDigits.value[index] === "" && index > 0) {
+        const prevInput = document.querySelectorAll(".code-box")[index - 1];
+        prevInput.focus();
+      }
+    };
+
+    const handleVerify = async () => {
+      const code = codeDigits.value.join("");
+      if (!code || code.length < 6) {
+        error.value = "Informe o código completo!";
+        message.value = "";
+        return;
+      }
+
+      try {
+        const response = await verifyCode(email.value, code);
+        sessionStorage.setItem("recoveryUserId", response.id);
+        sessionStorage.setItem("recoveryEmail", email.value);
+
+        message.value = "Código verificado com sucesso!";
+        error.value = "";
+
+        router.push("/redefinir-senha");
+
+
+
+      } catch (err) {
+        console.error("Erro ao verificar código:", err);
+        error.value = err.response?.data?.message || "Código inválido.";
+        message.value = "";
+      }
+    };
+    return { email, codeDigits, focusNext, focusPrev, handleVerify, message, error };
   },
 };
 </script>
-
-<style src="./EnterCode.css"></style>

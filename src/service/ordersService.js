@@ -1,34 +1,23 @@
-import api from "./api";
+import axios from "axios";
 
-// PEDIDOS 
+const API_BASE_URL = "http://localhost:3000";
 
-// Listar todos os pedidos do usuário
-export function getOrders(params = {}) {
-  return api.get("/orders", { params });
+
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'x-api-key': 12345
+  }
+});
+
+export default {
+  async getAllProdutos() {
+    try {
+      const response = await api.get("/produtos/")
+      return response.data
+    } catch (error) {
+      console.error('Erro ao buscar produtos:', error)
+      return { data: [] }
+    }
+  },
 }
-
-// Criar um novo pedido 
-export function createOrder(data) {
-  return api.post("/orders", data);
-}
-
-// Deletar pedido 
-export function deleteOrder(id) {
-  return api.delete(`/orders/${id}`);
-}
-
-//  info do pedido
-export function getOrder(id) {
-  return api.get(`/orders/${id}`);
-}
-
-// comanda 
-export function getTabInfo(id) {
-  return api.get(`/orders/${id}/summary`);
-}
-
-// Histórico de pedidos
-export function getOrdersHistory() {
-  return api.get("/orders/history");
-}
-
