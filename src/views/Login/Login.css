@@ -110,6 +110,13 @@ html, body {
   padding: 10px 12px;
 }
 
+.login-input-group input:focus {
+  outline: none;
+  box-shadow: 0 0 0; 
+  border-radius: 12px;
+  transition: box-shadow 0.2s ease;
+}
+
 .login-input-group input {
   width: 100%;
   padding: 10px 35px 10px 35px;

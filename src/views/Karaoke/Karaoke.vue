@@ -98,7 +98,8 @@ const songs = ref([
 
 const filteredSongs = computed(() =>
   songs.value.filter(m =>
-    m.name.toLowerCase().includes(search.value.toLowerCase())
+    m.name.toLowerCase().includes(search.value.toLowerCase()) ||
+    m.singer.toLowerCase().includes(search.value.toLowerCase())
   )
 )
 

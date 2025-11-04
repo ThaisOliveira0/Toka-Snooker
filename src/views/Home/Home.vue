@@ -2,7 +2,7 @@
   <div class="home-container">
     <div class="header">
       <img src="@/assets/images/logo.png" alt="Logo" class="logo" />
-       <router-link to="/login" class="login-icon">
+      <router-link to="/login" class="login-icon">
         <i class="fas fa-user"></i>
       </router-link>
     </div>
@@ -15,7 +15,8 @@
       />
       <div class="speech">
         <p class="highlight">
-          SEJA BEM-VINDO(A) AO <span class="green-text">TOKA</span> SNOOKER BAR !!
+          SEJA BEM-VINDO(A) AO <span class="green-text">TOKA</span> SNOOKER BAR
+          !!
         </p>
         <p class="subtitle">Onde a Música Encontra a Tacada Perfeita!</p>
       </div>
@@ -75,29 +76,44 @@
     </div>
 
     <footer class="footer">
-      <div class="footer-section">
-        <p class="footer-title">📍 Localização:</p>
-        <p>Rua Coronel Alfredo Flaquer, 386 - Centro, Santo André, SP</p>
-      </div>
+      <div class="footer-top">
+        <div class="footer-section">
+          <h3 class="footer-title">Localização</h3>
+          <p>Rua Coronel Alfredo Flaquer, 386<br />Centro, Santo André - SP</p>
+        </div>
 
-      <div class="footer-section">
-        <p class="footer-title">🕒 Horário de Funcionamento:</p>
-        <ul>
-          <li>Domingo a Quinta-Feira: 19:00 - 01:00</li>
-          <li>Sexta e Sábado: 19:00 - 03:00</li>
-        </ul>
-      </div>
+        <div class="footer-section">
+          <h3 class="footer-title">Horário de Funcionamento</h3>
+          <ul>
+            <li>Domingo a Quinta: 19h - 01h</li>
+            <li>Sexta e Sábado: 19h - 03h</li>
+          </ul>
+        </div>
 
-      <div class="footer-section">
-        <p class="footer-title">Nos siga também nas redes sociais</p>
-        <div class="social-icons">
-          <img src="@/assets/images/insta.png" alt="Instagram" />
-          <img src="@/assets/images/facebook.png" alt="Facebook" />
+        <div class="footer-section">
+          <h3 class="footer-title">Fale Conosco</h3>
+          <p>(11) 4432-2419</p>
+          <p>contato@tokasnookerbar.com.br</p>
+        </div>
+
+        <div class="footer-section">
+          <h3 class="footer-title">Redes Sociais</h3>
+          <div class="social-icons">
+            <a href="#" aria-label="Instagram">
+              <img src="@/assets/images/insta.png" alt="Instagram" />
+            </a>
+            <a href="#" aria-label="Facebook">
+              <img src="@/assets/images/facebook.png" alt="Facebook" />
+            </a>
+          </div>
         </div>
       </div>
 
-      <div class="footer-section">
-        <p>📞 Contato: (11) 4432-2419</p>
+      <div class="footer-bottom">
+        <p>
+          © {{ new Date().getFullYear() }} Toka Snooker Bar — Todos os direitos
+          reservados.
+        </p>
       </div>
     </footer>
   </div>
