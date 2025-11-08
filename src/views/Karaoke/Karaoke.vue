@@ -65,36 +65,36 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import '@fortawesome/fontawesome-free/css/all.css'
 import Header from '@/components/layout/Header.vue'
+import karaokeService from '@/service/karaokeService' 
 import './karaoke.css'
 
 const search = ref('')
 const selected = ref('')
+const songs = ref([]) 
 
-const songs = ref([
-  { "name": "Shape of You", "singer": "Ed Sheeran", "length": "03:53" },
-  { "name": "Levitating", "singer": "Dua Lipa", "length": "03:23" },
-  { "name": "Peaches", "singer": "Justin Bieber", "length": "03:18" },
-  { "name": "Drivers License", "singer": "Olivia Rodrigo", "length": "04:02" },
-  { "name": "Bad Habits", "singer": "Ed Sheeran", "length": "03:51" },
-  { "name": "Stay", "singer": "The Kid LAROI, Justin Bieber", "length": "02:21" },
-  { "name": "Good 4 U", "singer": "Olivia Rodrigo", "length": "02:58" },
-  { "name": "Save Your Tears", "singer": "The Weeknd", "length": "03:35" },
-  { "name": "Montero", "singer": "Lil Nas X", "length": "02:18" },
-  { "name": "Butter", "singer": "BTS", "length": "02:44" },
-  { "name": "Blinding Lights", "singer": "The Weeknd", "length": "03:20" },
-  { "name": "Industry Baby", "singer": "Lil Nas X, Jack Harlow", "length": "03:32" },
-  { "name": "Kiss Me More", "singer": "Doja Cat, SZA", "length": "03:28" },
-  { "name": "As It Was", "singer": "Harry Styles", "length": "02:47" },
-  { "name": "Shivers", "singer": "Ed Sheeran", "length": "03:27" },
-  { "name": "Heat Waves", "singer": "Glass Animals", "length": "03:58" },
-  { "name": "Easy On Me", "singer": "Adele", "length": "03:45" },
-  { "name": "Stay With Me", "singer": "Sam Smith", "length": "02:52" },
-  { "name": "Savage Love", "singer": "Jawsh 685, Jason Derulo", "length": "02:51" },
-  { "name": "Happier Than Ever", "singer": "Billie Eilish", "length": "04:58" }
-])
+const formatDuration = (seconds) => {
+  const min = Math.floor(seconds / 60)
+  const sec = seconds % 60
+  return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`
+}
+
+onMounted(async () => {
+  try {
+    const data = await karaokeService.getSongs()
+    songs.value = data.map((m) => ({
+      name: m.nome,
+      singer: m.artista,
+      length: formatDuration(m.duracao),
+      genre: m.genero,
+      id: m.id
+    }))
+  } catch (err) {
+    console.error('Erro ao carregar músicas:', err)
+  }
+})
 
 const filteredSongs = computed(() =>
   songs.value.filter(m =>
@@ -104,7 +104,7 @@ const filteredSongs = computed(() =>
 )
 
 const bgColor = (index) => {
-  const colors = [ 'bg-green', 'bg-gray',]
+  const colors = ['bg-green', 'bg-gray']
   return colors[index % colors.length]
 }
 </script>

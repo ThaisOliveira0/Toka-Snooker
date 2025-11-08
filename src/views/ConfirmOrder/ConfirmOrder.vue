@@ -31,9 +31,13 @@
 
     <div class="total-section" v-if="cart.length">
       <div class="total">Total: R$ {{ total.toFixed(2) }}</div>
-      <button class="confirm" @click="confirmOrder">Confirmar Pedido</button>
+      <button class="confirm" @click="confirmOrder" :disabled="loading">
+        <span v-if="loading">Enviando...</span>
+        <span v-else>Confirmar Pedido</span>
+      </button>
     </div>
 
+    <!-- Modal para edição de ingredientes -->
     <div v-if="editingItem" class="modal" @click.self="editingItem = null">
       <div class="modal-content">
         <button class="close" @click="editingItem = null">×</button>
@@ -52,57 +56,64 @@
   </div>
 </template>
 
+
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import Header from "@/components/layout/Header.vue";
+import orderService from "@/service/ordersService.js";
+import { toast } from "vue3-toastify"; 
 import "./ConfirmOrder.css";
 
 const cart = ref([]);
-
 const editingItem = ref(null);
+const loading = ref(false);
 
 onMounted(() => {
   const storedCart = localStorage.getItem("cart");
-  if (storedCart) {
-    cart.value = JSON.parse(storedCart);
-  }
+  if (storedCart) cart.value = JSON.parse(storedCart);
 });
 
-const total = computed(() => {
-  return cart.value.reduce((sum, item) => sum + item.price * item.quantity, 0);
-});
+const total = computed(() => 
+  cart.value.reduce((sum, item) => sum + item.price * item.quantity, 0)
+);
 
-const increaseItem = (item) => {
-  item.quantity++;
-  saveCart();
-};
-
+const increaseItem = (item) => { item.quantity++; saveCart(); };
 const decreaseItem = (item) => {
-  if (item.quantity > 1) {
-    item.quantity--;
-  } else {
-    const index = cart.value.findIndex((i) => i.id === item.id);
-    if (index !== -1) cart.value.splice(index, 1);
+  if (item.quantity > 1) item.quantity--;
+  else cart.value = cart.value.filter(i => i.id !== item.id);
+  saveCart();
+};
+const editItem = (item) => { editingItem.value = item; };
+const saveEdit = () => { editingItem.value = null; saveCart(); };
+const saveCart = () => { localStorage.setItem("cart", JSON.stringify(cart.value)); };
+
+const confirmOrder = async () => {
+  if (!cart.value.length) return;
+
+  loading.value = true;
+  try {
+    const pedido = {
+      id_comanda: 1,
+      observacao: "Pedido feito via app",
+      status: "PENDENTE",
+      produtos: cart.value.map(item => ({
+        id_produto: item.id,
+        quantidade: item.quantity,
+        valor_unit: Number(item.price), 
+      })),
+      valor_total: Number(total.value), 
+    };
+
+    await orderService.createPedido(pedido);
+
+    toast.success("Pedido enviado com sucesso!");
+    localStorage.removeItem("cart");
+    cart.value = [];
+  } catch (error) {
+    console.error("Erro ao enviar pedido:", error);
+    toast.error("Erro ao confirmar o pedido. Tente novamente.");
+  } finally {
+    loading.value = false;
   }
-  saveCart();
-};
-
-const editItem = (item) => {
-  editingItem.value = item;
-};
-
-const saveEdit = () => {
-  editingItem.value = null;
-  saveCart();
-};
-
-const confirmOrder = () => {
-  alert("Pedido confirmado!");
-  localStorage.removeItem("cart");
-  cart.value = [];
-};
-
-const saveCart = () => {
-  localStorage.setItem("cart", JSON.stringify(cart.value));
 };
 </script>

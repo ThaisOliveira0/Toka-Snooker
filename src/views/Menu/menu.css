@@ -95,7 +95,10 @@ body {
   width: 48px;
   height: 48px;
   margin-right: 12px;
+  border-radius: 15%; /* deixa totalmente arredondada, tipo círculo */
+  object-fit: cover;  /* garante que a imagem preencha o espaço sem distorcer */
 }
+
 
 .menu-info {
   flex: 1;

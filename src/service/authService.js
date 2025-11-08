@@ -1,7 +1,7 @@
 import axios from 'axios';
 import jwt_decode from 'jwt-decode'; 
 
-const API_URL = 'http://localhost:3000';
+const API_URL = 'http://192.168.0.208:3000';
 
 export async function login(email, senha) {
   try {
