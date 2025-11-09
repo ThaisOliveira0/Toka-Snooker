@@ -6,7 +6,7 @@
     </div>
 
     <div class="verify-icon">
-      <!-- <img src="@/assets/images/verify-icon.png" alt="Verificar Código" /> -->
+        <i class="fas fa-key"></i>
     </div>
 
     <h2 class="verify-title">VERIFICAÇÃO DE CÓDIGO</h2>

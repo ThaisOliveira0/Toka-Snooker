@@ -148,8 +148,14 @@ export default {
         (promocoes.value.length - slidesToShow + 1);
     };
 
-    onMounted(() => {
+  onMounted(() => {
       intervalId = setInterval(nextSlide, 3000);
+      const params = new URLSearchParams(window.location.search);
+      const mesaParam = params.get("mesa");
+      if (mesaParam) {
+        sessionStorage.setItem("mesa", mesaParam);
+        console.log("Mesa detectada:", mesaParam);
+      }
     });
 
     onUnmounted(() => clearInterval(intervalId));

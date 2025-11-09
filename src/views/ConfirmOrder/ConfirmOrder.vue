@@ -37,7 +37,6 @@
       </button>
     </div>
 
-    <!-- Modal para edição de ingredientes -->
     <div v-if="editingItem" class="modal" @click.self="editingItem = null">
       <div class="modal-content">
         <button class="close" @click="editingItem = null">×</button>
@@ -62,18 +61,27 @@ import { ref, computed, onMounted } from "vue";
 import Header from "@/components/layout/Header.vue";
 import orderService from "@/service/ordersService.js";
 import { toast } from "vue3-toastify"; 
+import { getDecodedToken } from "@/service/authService"; 
 import "./ConfirmOrder.css";
 
 const cart = ref([]);
 const editingItem = ref(null);
 const loading = ref(false);
+const userId = ref(null);
 
 onMounted(() => {
   const storedCart = localStorage.getItem("cart");
   if (storedCart) cart.value = JSON.parse(storedCart);
+
+  const decoded = getDecodedToken();
+  if (decoded && decoded.id) {
+    userId.value = decoded.id;
+  } else {
+    console.error("Não foi possível obter o ID do usuário.");
+  }
 });
 
-const total = computed(() => 
+const total = computed(() =>
   cart.value.reduce((sum, item) => sum + item.price * item.quantity, 0)
 );
 
@@ -87,21 +95,28 @@ const editItem = (item) => { editingItem.value = item; };
 const saveEdit = () => { editingItem.value = null; saveCart(); };
 const saveCart = () => { localStorage.setItem("cart", JSON.stringify(cart.value)); };
 
+
 const confirmOrder = async () => {
   if (!cart.value.length) return;
-
+  if (!userId.value) {
+    toast.error("Usuário não identificado. Faça login novamente.");
+    return;
+  }
+  
+  const mesa = sessionStorage.getItem("mesa"); 
   loading.value = true;
   try {
     const pedido = {
-      id_comanda: 1,
+      id_usuario: userId.value, 
       observacao: "Pedido feito via app",
       status: "PENDENTE",
+      mesa: mesa ? Number(mesa) : null,
       produtos: cart.value.map(item => ({
         id_produto: item.id,
         quantidade: item.quantity,
-        valor_unit: Number(item.price), 
+        valor_unit: Number(item.price),
       })),
-      valor_total: Number(total.value), 
+      valor_total: Number(total.value),
     };
 
     await orderService.createPedido(pedido);

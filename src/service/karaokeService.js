@@ -20,4 +20,16 @@ export default {
         }
 
     },
+async sendSong(id_musica, id_comanda) {
+    try {
+      const response = await api.post("/musica-pedido", {
+        id_musica,
+        id_comanda,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao enviar música:", error);
+      return null;
+    }
+  },
 }
