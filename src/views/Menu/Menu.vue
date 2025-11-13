@@ -75,7 +75,7 @@ import { ref, computed, onMounted, watch } from 'vue'
 import Header from '@/components/layout/Header.vue'
 import ProductModal from './Components/ProductModal.vue'
 import orderService from "@/service/ordersService.js";
-import "./Menu.css"
+import "./menu.css"
 
 const tabs = ref([])
 const selectedItem = ref(null)
