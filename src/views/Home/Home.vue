@@ -166,4 +166,4 @@ export default {
 </script>
 
 
-<style src="./home.css"></style>
+<style src="./Home.css"></style>

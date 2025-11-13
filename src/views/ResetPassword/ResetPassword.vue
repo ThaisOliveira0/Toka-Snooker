@@ -6,7 +6,7 @@
     </div>
 
     <div class="reset-icon">
-      <!-- <img src="@/assets/images/reset-icon.png" alt="Redefinir senha" /> -->
+      <img src="@/assets/images/lock.png" alt="Redefinir senha" />
     </div>
 
     <h2 class="reset-title">REDEFINIR SENHA</h2>

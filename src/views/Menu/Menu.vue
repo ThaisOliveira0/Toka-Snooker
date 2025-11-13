@@ -75,7 +75,7 @@ import { ref, computed, onMounted, watch } from 'vue'
 import Header from '@/components/layout/Header.vue'
 import ProductModal from './Components/ProductModal.vue'
 import orderService from "@/service/ordersService.js";
-import "./menu.css"
+import "./Menu.css"
 
 const tabs = ref([])
 const selectedItem = ref(null)
@@ -120,12 +120,12 @@ onMounted(async () => {
     const response = await orderService.getAllProdutos();
     const produtos = response.data;
 
-    const defaultIcons = {
-      Cervejas: new URL('@/assets/icons/eisenbahn600.jpg', import.meta.url).href,
-      Coquetéis: new URL('@/assets/icons/eisenbahn600.jpg', import.meta.url).href,
-      'Doses e Drinks': new URL('@/assets/icons/eisenbahn600.jpg', import.meta.url).href,
-      default: new URL('@/assets/icons/eisenbahn600.jpg', import.meta.url).href
-    };
+  //  const defaultIcons = {
+   ////   Cervejas: new URL('@/assets/icons/eisenbahn600.jpg', import.meta.url).href,
+     //// Coquetéis: new URL('@/assets/icons/eisenbahn600.jpg', import.meta.url).href,
+    // // 'Doses e Drinks': new URL('@/assets/icons/eisenbahn600.jpg', import.meta.url).href,
+   // //  default: new URL('@/assets/icons/eisenbahn600.jpg', import.meta.url).href
+   // };
 
 items.value = produtos.map(p => {
   const fotoPath = p.foto ? `/${encodeURIComponent(p.foto)}` : (defaultIcons[p.categoria] || defaultIcons.default);

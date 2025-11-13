@@ -66,7 +66,7 @@ import { ref, computed, onMounted } from 'vue'
 import '@fortawesome/fontawesome-free/css/all.css'
 import Header from '@/components/layout/Header.vue'
 import karaokeService from '@/service/karaokeService' 
-import './karaoke.css'
+import './Karaoke.css'
 
 const search = ref('')
 const selected = ref(null)   
@@ -122,7 +122,6 @@ const confirmSong = async () => {
 
   try {
     const response = await karaokeService.sendSong(id_musica, id_comanda)
-    console.log('Resposta do servidor:', response)
     if (response && (response.success || response.id)) {
       alert('Música adicionada com sucesso!')
       selected.value = null
