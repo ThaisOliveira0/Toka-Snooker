@@ -100,10 +100,10 @@
           <h3 class="footer-title">Redes Sociais</h3>
           <div class="social-icons">
             <a href="#" aria-label="Instagram">
-              <img src="@/assets/images/insta.png" alt="Instagram" />
+              <img src="/insta.png" alt="Instagram" />
             </a>
             <a href="#" aria-label="Facebook">
-              <img src="@/assets/images/facebook.png" alt="Facebook" />
+              <img src="/facebook.png" alt="Facebook" />
             </a>
           </div>
         </div>
