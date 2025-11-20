@@ -2,7 +2,6 @@
   <div class="menu">
     <Header>CARDÁPIO</Header>
 
-    <!-- Tabs -->
     <div class="menu-tabs">
       <button
         v-for="tab in tabs"
@@ -14,7 +13,6 @@
       </button>
     </div>
 
-    <!-- Categorias -->
     <div v-for="(group, category) in groupedItems" :key="category" :id="category">
       <h3 class="menu-category-title">{{ category.toUpperCase() }}</h3>
 
@@ -47,7 +45,6 @@
       </div>
     </div>
 
-    <!-- Modal separado -->
     <ProductModal
       v-if="selectedItem"
       :item="selectedItem"
@@ -57,7 +54,6 @@
       @confirm="handleConfirm"
     />
 
-    <!-- Carrinho -->
     <div
       v-if="cart.length > 0"
       class="menu-cart-bar"
@@ -120,12 +116,12 @@ onMounted(async () => {
     const response = await orderService.getAllProdutos();
     const produtos = response.data;
 
-  //  const defaultIcons = {
-   ////   Cervejas: new URL('@/assets/icons/eisenbahn600.jpg', import.meta.url).href,
-     //// Coquetéis: new URL('@/assets/icons/eisenbahn600.jpg', import.meta.url).href,
-    // // 'Doses e Drinks': new URL('@/assets/icons/eisenbahn600.jpg', import.meta.url).href,
-   // //  default: new URL('@/assets/icons/eisenbahn600.jpg', import.meta.url).href
-   // };
+   const defaultIcons = {
+   //   Cervejas: new URL('@/assets/icons/eisenbahn600.jpg', import.meta.url).href,
+     // Coquetéis: new URL('@/assets/icons/eisenbahn600.jpg', import.meta.url).href,
+    // 'Doses e Drinks': new URL('@/assets/icons/eisenbahn600.jpg', import.meta.url).href,
+   //  default: new URL('@/assets/icons/eisenbahn600.jpg', import.meta.url).href
+   };
 
 items.value = produtos.map(p => {
   const fotoPath = p.foto ? `/${encodeURIComponent(p.foto)}` : (defaultIcons[p.categoria] || defaultIcons.default);

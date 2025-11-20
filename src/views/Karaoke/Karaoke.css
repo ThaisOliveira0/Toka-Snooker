@@ -208,3 +208,35 @@
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+.status-card {
+  background: #0f1115;
+  padding: 16px 24px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+.status-label {
+  margin: 0;
+  font-size: 15px;
+  color: #ffffff; 
+  font-weight: 600;
+}
+
+.status-time {
+  margin: 4px 0 0 0;
+  color: #22c55e; 
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.loading-songs {
+  display: flex;
+  justify-content: center; 
+  align-items: center;    
+  font-size: 18px;
+  font-weight: bold;
+  color: white;         
+  margin: 20px 0;          
+}

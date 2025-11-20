@@ -1,30 +1,29 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://192.168.0.208:3000";
-
 const api = axios.create({
-    baseURL: API_BASE_URL,
-    headers: {
-        "x-api-key": 12345,
-    },
+  baseURL: import.meta.env.VITE_BASE_URL,
+  headers: {
+    "x-api-key": import.meta.env.VITE_API_KEY,
+  },
 });
 
 export default {
-    async getSongs() {
-        try {
-            const response = await api.get("/musicas");
-            return response.data;
-        } catch (error) {
-            console.error("Erro ao buscar musicas:", error);
-            return [];
-        }
-
-    },
-async sendSong(id_musica, id_comanda) {
+  // método async correto
+  async getSongs() {
     try {
-      const response = await api.post("/musica-pedido", {
+      const response = await api.get("/musicas");
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao buscar musicas:", error);
+      return [];
+    }
+  },
+
+  async sendSong(id_musica, id_usuario) {
+    try {
+      const relevancia = "ALTA";
+      const response = await api.post(`/fila/${id_usuario}/${relevancia}`, {
         id_musica,
-        id_comanda,
       });
       return response.data;
     } catch (error) {
@@ -32,4 +31,15 @@ async sendSong(id_musica, id_comanda) {
       return null;
     }
   },
-}
+
+  async exitLine(id_usuario) {
+    try {
+      const relevancia = "ALTA";
+      const response = await api.patch(`/fila/sair/${id_usuario}/${relevancia}`);
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao sair da fila:", error);
+      return null;
+    }
+  },
+};
