@@ -3,22 +3,26 @@
         <div class="queue-modal-container">
             <h2>Detalhes da fila</h2>
 
-            <div class="queue-modal-info">
-                <div class="queue-info-box">
-                    <p class="queue-label">Tempo estimado de espera:</p>
-                    <p class="queue-value">15min 30 seg</p>
-                </div>
-
-                <div class="queue-info-box">
-                    <p class="queue-label">Entrou na fila:</p>
-                    <p class="queue-value">{{ requestTime }}</p>
-                </div>
-
-                <div class="queue-info-box">
-                    <p class="queue-label">Música selecionada:</p>
-                    <p class="queue-value">{{ selectedSong.name || 'No song selected' }}</p>
-                </div>
+            <div class="queue-info-box">
+                <p class="queue-label">Tempo estimado de espera:</p>
+                <p class="queue-value">{{ props.queueTime }}</p>
             </div>
+
+            <div class="queue-info-box">
+                <p class="queue-label">Entrou na fila:</p>
+                <p class="queue-value">{{ enteredQueueTime }}</p>
+            </div>
+
+            <div class="queue-info-box">
+                <p class="queue-label">Posição atual:</p>
+                <p class="queue-value">{{ props.queuePosition ?? '—' }}</p>
+            </div>
+
+            <div class="queue-info-box">
+                <p class="queue-label">Música selecionada:</p>
+                <p class="queue-value">{{ selectedSong.name || '—' }}</p>
+            </div>
+
 
 
             <button class="queue-btn-leave" @click="leaveQueue">Sair da fila</button>
@@ -29,21 +33,36 @@
 <script setup>
 import karaokeService from '@/service/karaokeService'
 import { getDecodedToken } from '@/service/authservice.js'
+import { toast } from 'vue3-toastify'
 
 const props = defineProps({
     show: Boolean,
     selectedSong: Object,
-    requestTime: String,
+    queueTime: String,
+    queueEnteredAt: String,
+    queuePosition: Number,
 })
+
 
 const emit = defineEmits(['close', 'leave'])
 
 const closeModal = () => emit('close')
+import { computed } from "vue";
+
+const enteredQueueTime = computed(() => {
+    if (!props.queueEnteredAt) return "—";
+
+    const date = new Date(props.queueEnteredAt);
+    return date.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+    });
+});
 
 const leaveQueue = async () => {
     const user = getDecodedToken()
     if (!user) {
-        alert("Usuário não autenticado.")
+        toast.info("Usuário não autenticado.")
         return
     }
 
@@ -51,10 +70,10 @@ const leaveQueue = async () => {
     const response = await karaokeService.exitLine(id_usuario)
 
     if (response && (response.success || response.status === "ok")) {
-        alert("Você saiu da fila!")
+        toast.warning("Você saiu da fila!")
         emit('leave')
     } else {
-        alert("Erro ao sair da fila, veja console.")
+        toast.error("Erro ao sair da fila, veja console.")
     }
 }
 </script>

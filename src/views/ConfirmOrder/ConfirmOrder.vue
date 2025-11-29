@@ -11,6 +11,10 @@
         <div class="info">
           <h4>{{ item.name }}</h4>
           <p>{{ item.subtitle }}</p>
+
+          <p v-if="item.observation" class="item-observation">
+            Obs: {{ item.observation }}
+          </p>
         </div>
 
         <div class="actions">
@@ -40,6 +44,7 @@
     <div v-if="editingItem" class="modal" @click.self="editingItem = null">
       <div class="modal-content">
         <button class="close" @click="editingItem = null">×</button>
+
         <div class="ingredients">
           <label
             v-for="ingredient in editingItem.ingredients || []"
@@ -49,12 +54,18 @@
             {{ ingredient.name }}
           </label>
         </div>
+
+        <textarea
+          v-model="editingItem.observation"
+          placeholder="Observação do item (ex: sem cebola, sem sal...)"
+          class="obs-field"
+        ></textarea>
+
         <button @click="saveEdit">Salvar</button>
       </div>
     </div>
   </div>
 </template>
-
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
@@ -91,10 +102,17 @@ const decreaseItem = (item) => {
   else cart.value = cart.value.filter(i => i.id !== item.id);
   saveCart();
 };
-const editItem = (item) => { editingItem.value = item; };
-const saveEdit = () => { editingItem.value = null; saveCart(); };
-const saveCart = () => { localStorage.setItem("cart", JSON.stringify(cart.value)); };
 
+const editItem = (item) => { editingItem.value = item; };
+
+const saveEdit = () => { 
+  editingItem.value = null; 
+  saveCart(); 
+};
+
+const saveCart = () => { 
+  localStorage.setItem("cart", JSON.stringify(cart.value)); 
+};
 
 const confirmOrder = async () => {
   if (!cart.value.length) return;
@@ -102,20 +120,24 @@ const confirmOrder = async () => {
     toast.error("Usuário não identificado. Faça login novamente.");
     return;
   }
-  
+
   const mesa = sessionStorage.getItem("mesa"); 
   loading.value = true;
+
   try {
     const pedido = {
       id_usuario: userId.value, 
       observacao: "Pedido feito via app",
       status: "PENDENTE",
       mesa: mesa ? Number(mesa) : null,
+
       produtos: cart.value.map(item => ({
         id_produto: item.id,
         quantidade: item.quantity,
         valor_unit: Number(item.price),
+        observacao: item.observation || "" 
       })),
+
       valor_total: Number(total.value),
     };
 

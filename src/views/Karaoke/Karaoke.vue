@@ -4,9 +4,14 @@
 
     <div class="status-card" @click="openQueueModal">
       <p class="status-label">Tempo estimado de espera:</p>
-      <p class="status-time">15min 20s</p>
-    </div>
 
+      <!-- TEMPO REAL DA ROTA -->
+      <p class="status-time">
+        {{ userQueueData?.tempo_est_ate_cantar_formatado || "—" }}
+      </p>
+
+      <i class="fas fa-sync-alt reload-icon" @click.stop="fetchQueuePosition"></i>
+    </div>
 
 
     <div class="search-box">
@@ -22,7 +27,8 @@
       </div>
 
       <div v-else v-for="(song, index) in filteredSongs" :key="song.id ?? song.name"
-        :class="['song-card', bgColor(index), selected === song.id ? 'selected' : '']" @click="selected = song.id">
+        :class="['song-card', bgColor(index), selected === song.id ? 'selected' : '']"
+        @click="selected = song.id">
         <div class="song-info">
           <label class="custom-radio">
             <input type="radio" name="musica" :value="song.id" v-model="selected" />
@@ -48,17 +54,25 @@
       </button>
     </div>
   </div>
-<InfoModal
+<InfoModal 
   :show="queueModalOpen"
-  :selectedSong="songs.find(m => m.id === selected) || {}"
-  :requestTime="requestTime"
+
+  :selectedSong="userQueueData?.esta_na_fila === 1
+    ? { name: userQueueData.musica_nome, singer: userQueueData.musica_artista }
+    : songs.find(m => m.id === selected) || {}"
+
+  :queueTime="userQueueData?.tempo_est_ate_cantar_formatado || '—'"
+  :queueEnteredAt="userQueueData?.data_entrada_fila || null"
+  :queuePosition="queuePosition"
+
   @close="queueModalOpen = false"
   @leave="handleLeaveQueue"
 />
 
-
-
 </template>
+
+
+
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
@@ -68,24 +82,32 @@ import { getDecodedToken } from '@/service/authservice.js'
 import karaokeService from '@/service/karaokeService'
 import './Karaoke.css'
 import InfoModal from './components/InfoModal.vue'
+import { toast } from "vue3-toastify";
 
 const queueModalOpen = ref(false)
 const requestTime = ref('')
-
-
+const queuePosition = ref(null)
+const queueLoading = ref(true)
 const search = ref('')
 const loading = ref(true)
 const selected = ref(null)
 const songs = ref([])
+const userQueueData = ref(null)
 
 const formatDuration = (seconds) => {
   const min = Math.floor(seconds / 60)
   const sec = seconds % 60
   return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`
 }
+
 const openQueueModal = () => {
+  if (userQueueData.value?.esta_na_fila === 1) {
+    queueModalOpen.value = true
+    return
+  }
+
   if (!selected.value) {
-    alert("Nenhuma música selecionada!");
+    toast.info("Nenhuma música selecionada!");
     return;
   }
 
@@ -95,19 +117,18 @@ const openQueueModal = () => {
 }
 
 const handleLeaveQueue = () => {
-  alert("Você saiu da fila!")
+  toast.info("Você saiu da fila!")
   queueModalOpen.value = false
   selected.value = null
+  userQueueData.value = null
 }
 
 onMounted(async () => {
   loading.value = true
   try {
     const data = await karaokeService.getSongs()
-    if (!Array.isArray(data)) {
-      console.error('getSongs não retornou array:', data)
-      return
-    }
+    if (!Array.isArray(data)) return
+
     songs.value = data.map((m) => ({
       name: m.nome ?? m.name,
       singer: m.artista ?? m.singer ?? 'Desconhecido',
@@ -115,12 +136,91 @@ onMounted(async () => {
       genre: m.genero ?? m.genre,
       id: m.id ?? m._id ?? null
     }))
+
+    await fetchQueuePosition()
+
   } catch (err) {
     console.error('Erro ao carregar músicas:', err)
   } finally {
     loading.value = false
   }
 })
+
+
+
+/* 🔥 FUNÇÃO AGORA GUARDA TODOS OS DADOS REAIS */
+const fetchQueuePosition = async () => {
+  const user = getDecodedToken();
+  if (!user) return;
+
+  const id_usuario = user.id;
+
+  queueLoading.value = true;
+  try {
+    const response = await karaokeService.getUser(id_usuario);
+
+    if (response && response.id_usuario) {
+      userQueueData.value = response;        // SALVA DADOS REAIS
+      queuePosition.value = response.posicao;
+
+      // USER JÁ ESTÁ NA FILA → SETA MÚSICA AUTOMÁTICA
+      if (response.esta_na_fila === 1) {
+        selected.value = response.id_musica;
+      }
+
+    } else {
+      userQueueData.value = null;
+      queuePosition.value = null;
+    }
+
+  } catch (err) {
+    console.error("Erro ao buscar posição na fila:", err);
+    userQueueData.value = null;
+    queuePosition.value = null;
+  } finally {
+    queueLoading.value = false;
+  }
+};
+
+
+
+/* 🔥 CONFIRMAR MÚSICA — SE JÁ ESTÁ NA FILA, ABRE MODAL */
+const confirmSong = async () => {
+  if (userQueueData.value?.esta_na_fila === 1) {
+    queueModalOpen.value = true
+    return
+  }
+
+  // FLUXO NORMAL
+  if (!selected.value) {
+    return toast.warning("Selecione uma música!");
+  }
+
+  const user = getDecodedToken();
+  if (!user) {
+    toast.error("Usuário não autenticado.");
+    return;
+  }
+
+  const id_usuario = user.id;
+  const id_musica = selected.value;
+
+  try {
+    const response = await karaokeService.sendSong(id_musica, id_usuario);
+
+    if (response && (response.success || response.id || response.status === "ok")) {
+      toast.success("Música adicionada com sucesso!");
+      selected.value = null;
+
+      await fetchQueuePosition(); // atualiza a fila real
+    } else {
+      toast.info("Requisição enviada, mas a resposta não está no formato esperado.");
+    }
+  } catch (error) {
+    console.error("Erro ao enviar música:", error);
+    toast.error("Erro ao adicionar música.");
+  }
+};
 
 
 const filteredSongs = computed(() =>
@@ -134,37 +234,6 @@ const selectedSongName = computed(() => {
   const s = songs.value.find(m => m.id === selected.value)
   return s ? s.name : ''
 })
-
-const confirmSong = async () => {
-  if (!selected.value) {
-    return alert("Selecione uma música!");
-  }
-
-  const user = getDecodedToken();
-  if (!user) {
-    alert("Usuário não autenticado.");
-    return;
-  }
-
-  const id_usuario = user.id;
-  const id_musica = selected.value;
-
-  try {
-    const response = await karaokeService.sendSong(id_musica, id_usuario);
-
-
-    if (response && (response.success || response.id || response.status === "ok")) {
-      alert("Música adicionada com sucesso!");
-      selected.value = null;
-    } else {
-      alert("Requisição enviada, mas a resposta não está no formato esperado.");
-    }
-  } catch (error) {
-    console.error("Erro ao enviar música:", error);
-    alert("Erro ao adicionar música.");
-  }
-};
-
 
 const bgColor = (index) => {
   const colors = ['bg-green', 'bg-gray']

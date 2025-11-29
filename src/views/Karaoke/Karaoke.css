@@ -209,6 +209,7 @@
   to { opacity: 1; transform: translateY(0); }
 }
 .status-card {
+  position: relative;
   background: #0f1115;
   padding: 16px 24px;
   border-radius: 16px;
@@ -216,7 +217,19 @@
   text-align: center;
   box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
 }
+.reload-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  color: #40a44cc4;
+  font-size: 14px;
+  transition: transform 0.2s;
+}
 
+.reload-icon:hover {
+  transform: rotate(90deg);
+}
 .status-label {
   margin: 0;
   font-size: 15px;

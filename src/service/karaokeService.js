@@ -8,7 +8,6 @@ const api = axios.create({
 });
 
 export default {
-  // método async correto
   async getSongs() {
     try {
       const response = await api.get("/musicas");
@@ -19,18 +18,26 @@ export default {
     }
   },
 
-  async sendSong(id_musica, id_usuario) {
-    try {
-      const relevancia = "ALTA";
-      const response = await api.post(`/fila/${id_usuario}/${relevancia}`, {
-        id_musica,
-      });
-      return response.data;
-    } catch (error) {
-      console.error("Erro ao enviar música:", error);
-      return null;
+async sendSong(id_musica, id_usuario, relevancia) {
+  try {
+    const config = {};
+    if (relevancia) {
+      config.params = { relevancia };
     }
-  },
+
+    const response = await api.post(
+      `/fila/${id_usuario}`,
+      { id_musica },
+      config
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao enviar música:", error);
+    return null;
+  }
+},
+
 
   async exitLine(id_usuario) {
     try {
@@ -42,4 +49,27 @@ export default {
       return null;
     }
   },
+  
+  async getUser(id_usuario) {
+  try {
+    const response = await api.get(`/fila/usuario/${id_usuario}`);
+    console.log(response);
+    
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao buscar usuário:", error);
+    return null;
+  }
+},
+
+async updateLine(relevancia) {
+  try {
+    const response = await api.patch(`/fila/atualizar/${relevancia}`);
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao atualizar fila:", error);
+    return null;
+  }
+},
+
 };

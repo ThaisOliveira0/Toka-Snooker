@@ -193,7 +193,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  background: #22500a9e;
+  background: #23500a;
   color: white;
   display: flex;
   justify-content: space-between;
@@ -213,4 +213,19 @@ body {
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
+}
+
+.loading-container-menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px; 
+}
+
+
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

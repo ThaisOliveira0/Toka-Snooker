@@ -18,11 +18,12 @@
         class="menu-modal-observation"
       ></textarea>
 
-      <div class="menu-modal-actions">
-        <button @click="$emit('decrease', item)">-</button>
-        <span>{{ item.quantity }}</span>
-        <button @click="$emit('add', item)">+</button>
-      </div>
+<div class="menu-modal-actions">
+  <button @click="emit('decrease', item)">-</button>
+  <span>{{ item.quantity }}</span>
+  <button @click="emit('add', item)">+</button>
+</div>
+
 
       <button
         class="menu-modal-add"
