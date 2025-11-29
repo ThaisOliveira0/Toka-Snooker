@@ -31,7 +31,10 @@
         <span class="link" @click="goToRegister">Clique aqui!</span>
       </p>
 
-      <button class="login-button" type="submit">Entrar</button>
+      <button class="login-button" type="submit" :disabled="loading">
+        <span v-if="!loading">Entrar</span>
+        <i v-else class="fas fa-spinner fa-spin"></i>
+      </button>
 
       <p v-if="errorMessage" class="login-error">{{ errorMessage }}</p>
     </form>
@@ -45,6 +48,7 @@ import { login } from "@/service/authService.js";
 export default {
   data() {
     return {
+      loading: false,
       email: "",
       password: "",
       showPassword: false,
@@ -57,12 +61,14 @@ export default {
     },
 
     async handleLogin() {
+      this.errorMessage = "";
+      this.loading = true;
       try {
         const { token } = await login(this.email, this.password);
 
         if (token) {
           sessionStorage.setItem("token", token);
-          this.$router.push("/menu");
+          this.$router.push("/");
         } else {
           this.errorMessage = "Erro ao fazer login. Tente novamente.";
         }
@@ -70,8 +76,11 @@ export default {
         console.error("Erro no login:", error);
         this.errorMessage =
           error.response?.data?.mensagem || "E-mail ou senha inválidos!";
+      } finally {
+        this.loading = false;
       }
     },
+
 
     goToRegister() {
       this.$router.push("/cadastro");

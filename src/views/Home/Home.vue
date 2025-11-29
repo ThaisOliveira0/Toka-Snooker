@@ -2,17 +2,34 @@
   <div class="home-container">
     <div class="header">
       <img src="@/assets/images/logo.png" alt="Logo" class="logo" />
-      <router-link to="/login" class="login-icon">
-        <i class="fas fa-user"></i>
-      </router-link>
+
+<div class="user-dropdown-wrapper" ref="dropdownRef">
+
+  <img
+    v-if="isLoggedIn"
+    :src="userImg"
+    alt="Usuário"
+    class="login-icon"
+    @click="toggleDropdown"
+  />
+
+  <i
+    v-else
+    class="fas fa-user login-icon"
+    @click="toggleDropdown"
+  ></i>
+
+  <div v-if="dropdownOpen" class="user-dropdown">
+    <p @click="logout">Sair da conta</p>
+  </div>
+</div>
+
+
+
     </div>
 
     <div class="welcome-section">
-      <img
-        src="@/assets/images/personagem.png"
-        alt="Personagem"
-        class="character"
-      />
+      <img src="@/assets/images/personagem.png" alt="Personagem" class="character" />
       <div class="speech">
         <p class="highlight">
           SEJA BEM-VINDO(A) AO <span class="green-text">TOKA</span> SNOOKER BAR
@@ -45,17 +62,10 @@
       </router-link>
     </div>
     <div class="promotions-carousel">
-      <div
-        class="slides-wrapper"
-        :style="{
-          transform: `translateX(-${currentIndex * (100 / slidesToShow)}%)`,
-        }"
-      >
-        <div
-          class="promo-slide"
-          v-for="(promo, index) in promocoes"
-          :key="index"
-        >
+      <div class="slides-wrapper" :style="{
+        transform: `translateX(-${currentIndex * (100 / slidesToShow)}%)`,
+      }">
+        <div class="promo-slide" v-for="(promo, index) in promocoes" :key="index">
           <img :src="promo.imagem" :alt="promo.titulo" />
         </div>
       </div>
@@ -124,9 +134,13 @@ import { ref, onMounted, onUnmounted } from "vue";
 import promo1 from "@/assets/images/promo1.png";
 import promo2 from "@/assets/images/promo2.png";
 import promo3 from "@/assets/images/promo3.png";
+import userImg from "@/assets/images/user.png";
 
 export default {
   setup() {
+    // ============================
+    // PROMOÇÕES DO CARROSSEL
+    // ============================
     const promocoes = ref([
       { titulo: "Promo 1", imagem: promo1 },
       { titulo: "Promo 2", imagem: promo2 },
@@ -139,28 +153,94 @@ export default {
 
     const nextSlide = () => {
       currentIndex.value =
-        (currentIndex.value + 1) % (promocoes.value.length - slidesToShow + 1);
+        (currentIndex.value + 1) %
+        (promocoes.value.length - slidesToShow + 1);
     };
 
     const prevSlide = () => {
       currentIndex.value =
-        (currentIndex.value - 1 + (promocoes.value.length - slidesToShow + 1)) %
+        (currentIndex.value - 1 +
+          (promocoes.value.length - slidesToShow + 1)) %
         (promocoes.value.length - slidesToShow + 1);
     };
 
-  onMounted(() => {
+    // ============================
+    // DROPDOWN DO USUÁRIO
+    // ============================
+    const isLoggedIn = ref(false);
+    const dropdownOpen = ref(false);
+    const dropdownRef = ref(null); // referencia do dropdown
+
+    const checkLogin = () => {
+      const token = sessionStorage.getItem("token");
+      isLoggedIn.value = !!token;
+    };
+
+    const toggleDropdown = () => {
+      if (isLoggedIn.value) {
+        dropdownOpen.value = !dropdownOpen.value;
+      } else {
+        window.location.href = "/login";
+      }
+    };
+
+    const logout = () => {
+      sessionStorage.removeItem("token");
+      isLoggedIn.value = false;
+      dropdownOpen.value = false;
+      alert("Você saiu da conta!");
+    };
+
+    // ============================
+    // FECHAR AO CLICAR FORA
+    // ============================
+    const handleClickOutside = (event) => {
+      if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
+        dropdownOpen.value = false;
+      }
+    };
+
+    // ============================
+    // MOUNT / UNMOUNT
+    // ============================
+    onMounted(() => {
       intervalId = setInterval(nextSlide, 3000);
+
+      document.addEventListener("click", handleClickOutside);
+
       const params = new URLSearchParams(window.location.search);
       const mesaParam = params.get("mesa");
       if (mesaParam) {
         sessionStorage.setItem("mesa", mesaParam);
         console.log("Mesa detectada:", mesaParam);
       }
+
+      checkLogin();
     });
 
-    onUnmounted(() => clearInterval(intervalId));
+    onUnmounted(() => {
+      clearInterval(intervalId);
+      document.removeEventListener("click", handleClickOutside);
+    });
 
-    return { promocoes, currentIndex, slidesToShow, nextSlide, prevSlide };
+    // ============================
+    // RETORNO PARA O TEMPLATE
+    // ============================
+    return {
+      promocoes,
+      currentIndex,
+      slidesToShow,
+      nextSlide,
+      prevSlide,
+
+      isLoggedIn,
+      dropdownOpen,
+      toggleDropdown,
+      logout,
+      dropdownRef,
+
+      userImg,
+    };
   },
 };
 </script>

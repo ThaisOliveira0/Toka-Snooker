@@ -55,6 +55,7 @@
 
 
 <script>
+import { toast } from 'vue3-toastify';
 import './SignUp.css'
 import { register } from '@/service/authService.js'
 
@@ -81,7 +82,7 @@ export default {
     },
     async handleRegister() {
       if (this.password !== this.confirmPassword) {
-        alert('As senhas não conferem!');
+        toast.warning('As senhas não conferem!');
         return;
       }
 
@@ -93,12 +94,19 @@ export default {
           this.password,
           'CLIENTE'
         );
-        alert('Cadastro realizado com sucesso!');
+        toast.success('Cadastro realizado com sucesso!');
         this.$router.push({ name: 'login' });
 
       } catch (error) {
-        console.error('Erro no cadastro:', error);
-        this.errorMessage = error.response?.data?.message || 'Erro ao cadastrar usuário!';
+        console.error('Erro no cadastro:', error.response?.data);
+
+        const errorMessage =
+          error.response?.data?.error ||
+          error.response?.data?.message ||
+          'Erro ao cadastrar usuário!';
+
+        this.errorMessage = errorMessage;
+        toast.error(errorMessage);
       }
     }
   }

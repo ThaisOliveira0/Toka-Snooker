@@ -18,17 +18,47 @@
   background-color: #fff;
 }
 
-.login-icon {
-  font-size: 24px;
-  color: #ffffff; 
-  text-decoration: none;
-  cursor: pointer;
-  transition: transform 0.2s, color 0.2s;
+.user-dropdown-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-left: auto;
+
 }
 
-.login-icon:hover {
-  color: #059669; 
-  transform: scale(1.1);
+.user-dropdown {
+  position: absolute;
+  top: 36px;
+  right: 0;
+  background-color: #1f2937;
+  color: white;
+  border-radius: 8px;
+  padding: 8px 12px;
+  min-width: 120px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  z-index: 100;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.user-dropdown p {
+  margin: 0;
+  padding: 8px 0;
+  font-size: 14px;
+}
+
+.user-dropdown p:hover {
+  background-color: #374151;
+  border-radius: 4px;
+}
+
+.login-icon {
+  width: 40px;   /* ajuste o tamanho que quiser */
+  height: 40px;  /* mantém proporção quadrada */
+  border-radius: 50%; /* deixa a imagem redonda, opcional */
+  cursor: pointer; /* muda o cursor para indicar que é clicável */
+  object-fit: cover; /* garante que a imagem preencha o tamanho definido sem distorcer */
+  font-size: 24px;
+  color: white;
 }
 
 
@@ -36,13 +66,16 @@
   background-color: #2e7d32 !important;
   width: 100%;
   padding: 16px;
+  position: relative; 
   display: flex;
-  justify-content: center;
+  justify-content: center; 
   align-items: center;
 }
 
+
 .logo {
   height: 80px;
+  margin-left: auto;
 }
 
 .welcome-section {
