@@ -78,7 +78,7 @@
 import { ref, computed, onMounted } from 'vue'
 import '@fortawesome/fontawesome-free/css/all.css'
 import Header from '@/components/layout/Header.vue'
-import { getDecodedToken } from '@/service/authservice.js'
+import { getDecodedToken } from '@/service/authService.js'
 import karaokeService from '@/service/karaokeService'
 import './Karaoke.css'
 import InfoModal from './components/InfoModal.vue'
@@ -117,7 +117,6 @@ const openQueueModal = () => {
 }
 
 const handleLeaveQueue = () => {
-  toast.info("Você saiu da fila!")
   queueModalOpen.value = false
   selected.value = null
   userQueueData.value = null
@@ -147,8 +146,6 @@ onMounted(async () => {
 })
 
 
-
-/* 🔥 FUNÇÃO AGORA GUARDA TODOS OS DADOS REAIS */
 const fetchQueuePosition = async () => {
   const user = getDecodedToken();
   if (!user) return;
@@ -160,10 +157,9 @@ const fetchQueuePosition = async () => {
     const response = await karaokeService.getUser(id_usuario);
 
     if (response && response.id_usuario) {
-      userQueueData.value = response;        // SALVA DADOS REAIS
+      userQueueData.value = response;        
       queuePosition.value = response.posicao;
 
-      // USER JÁ ESTÁ NA FILA → SETA MÚSICA AUTOMÁTICA
       if (response.esta_na_fila === 1) {
         selected.value = response.id_musica;
       }
@@ -182,16 +178,12 @@ const fetchQueuePosition = async () => {
   }
 };
 
-
-
-/* 🔥 CONFIRMAR MÚSICA — SE JÁ ESTÁ NA FILA, ABRE MODAL */
 const confirmSong = async () => {
-  if (userQueueData.value?.esta_na_fila === 1) {
-    queueModalOpen.value = true
-    return
-  }
+  // if (userQueueData.value?.esta_na_fila === 1) {
+  //   queueModalOpen.value = true
+  //   return
+  // }
 
-  // FLUXO NORMAL
   if (!selected.value) {
     return toast.warning("Selecione uma música!");
   }
@@ -208,11 +200,11 @@ const confirmSong = async () => {
   try {
     const response = await karaokeService.sendSong(id_musica, id_usuario);
 
-    if (response && (response.success || response.id || response.status === "ok")) {
-      toast.success("Música adicionada com sucesso!");
+    if (response && (response.sucesso)) {
+      toast.success("Música adicionada a fila com sucesso!");
       selected.value = null;
 
-      await fetchQueuePosition(); // atualiza a fila real
+      await fetchQueuePosition(); 
     } else {
       toast.info("Requisição enviada, mas a resposta não está no formato esperado.");
     }
