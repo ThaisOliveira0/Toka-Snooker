@@ -32,7 +32,7 @@
 
 <script setup>
 import karaokeService from '@/service/karaokeService'
-import { getDecodedToken } from '@/service/authservice.js'
+import { getDecodedToken } from '@/service/authService.js'
 import { toast } from 'vue3-toastify'
 
 const props = defineProps({
@@ -67,12 +67,18 @@ const leaveQueue = async () => {
     }
 
     const id_usuario = user.id
-    const response = await karaokeService.exitLine(id_usuario)
-
-    if (response && (response.success || response.status === "ok")) {
-        toast.warning("Você saiu da fila!")
-        emit('leave')
-    } else {
+    try {
+        const response = await karaokeService.exitLine(id_usuario)
+    
+        if (response && (response.sucesso)) {
+            toast.info("Você saiu da fila!")
+            emit('leave')
+        } else {
+            console.error("Resposta inesperada:", response)
+            toast.error("Erro ao sair da fila, veja console.")
+        }
+    } catch (error) {
+        console.error("Erro ao chamar exitLine:", error)
         toast.error("Erro ao sair da fila, veja console.")
     }
 }
