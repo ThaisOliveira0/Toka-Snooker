@@ -154,3 +154,30 @@ tbody td {
 .close-btn:hover {
   background: #444;
 }
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #22c55e;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.spinner {
+  font-size: 22px;
+}
+
+.no-comanda {
+  text-align: center;
+  padding: 20px;
+  margin-top: 20px;
+  color: #585757;
+  font-size: 16px;
+}
+
+.no-comanda i {
+  font-size: 26px;
+  margin-bottom: 10px;
+  color: #facc15;
+}

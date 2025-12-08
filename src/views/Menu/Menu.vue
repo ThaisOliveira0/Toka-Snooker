@@ -129,7 +129,7 @@ onMounted(async () => {
     const response = await orderService.getAllProdutos();
     const produtos = response.data;
 
-    const defaultIcons = { /* ... */ }
+    const defaultIcons = {  }
 
     items.value = produtos.map(p => {
       const fotoPath = p.foto ? `/${encodeURIComponent(p.foto)}` : (defaultIcons[p.categoria] || defaultIcons.default);

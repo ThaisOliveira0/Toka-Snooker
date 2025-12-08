@@ -138,9 +138,6 @@ import userImg from "@/assets/images/user.png";
 
 export default {
   setup() {
-    // ============================
-    // PROMOÇÕES DO CARROSSEL
-    // ============================
     const promocoes = ref([
       { titulo: "Promo 1", imagem: promo1 },
       { titulo: "Promo 2", imagem: promo2 },
@@ -164,12 +161,9 @@ export default {
         (promocoes.value.length - slidesToShow + 1);
     };
 
-    // ============================
-    // DROPDOWN DO USUÁRIO
-    // ============================
     const isLoggedIn = ref(false);
     const dropdownOpen = ref(false);
-    const dropdownRef = ref(null); // referencia do dropdown
+    const dropdownRef = ref(null); 
 
     const checkLogin = () => {
       const token = sessionStorage.getItem("token");
@@ -191,18 +185,12 @@ export default {
       alert("Você saiu da conta!");
     };
 
-    // ============================
-    // FECHAR AO CLICAR FORA
-    // ============================
     const handleClickOutside = (event) => {
       if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
         dropdownOpen.value = false;
       }
     };
 
-    // ============================
-    // MOUNT / UNMOUNT
-    // ============================
     onMounted(() => {
       intervalId = setInterval(nextSlide, 3000);
 
@@ -212,7 +200,6 @@ export default {
       const mesaParam = params.get("mesa");
       if (mesaParam) {
         sessionStorage.setItem("mesa", mesaParam);
-        console.log("Mesa detectada:", mesaParam);
       }
 
       checkLogin();
@@ -223,9 +210,6 @@ export default {
       document.removeEventListener("click", handleClickOutside);
     });
 
-    // ============================
-    // RETORNO PARA O TEMPLATE
-    // ============================
     return {
       promocoes,
       currentIndex,
@@ -238,7 +222,6 @@ export default {
       toggleDropdown,
       logout,
       dropdownRef,
-
       userImg,
     };
   },

@@ -27,8 +27,7 @@
       </div>
 
       <div v-else v-for="(song, index) in filteredSongs" :key="song.id ?? song.name"
-        :class="['song-card', bgColor(index), selected === song.id ? 'selected' : '']"
-        @click="selected = song.id">
+        :class="['song-card', bgColor(index), selected === song.id ? 'selected' : '']" @click="selected = song.id">
         <div class="song-info">
           <label class="custom-radio">
             <input type="radio" name="musica" :value="song.id" v-model="selected" />
@@ -44,35 +43,27 @@
     </div>
 
 
-    <div v-if="selected" class="selected-music">
+    <div v-if="selected && userQueueData?.esta_na_fila !== 1" class="selected-music">
       <div class="selected-info">
         <p>Música selecionada:</p>
         <p><strong>{{ selectedSongName }}</strong></p>
       </div>
-      <button class="confirm-button" @click="confirmSong">
-        <i class="fas fa-check"></i> Confirmar
-      </button>
+      <button class="confirm-button" @click="confirmSong" :disabled="confirmLoading">
+  <i v-if="confirmLoading" class="fas fa-spinner fa-spin"></i>
+  <span v-else>
+    <i class="fas fa-check"></i> Confirmar
+  </span>
+</button>
+
     </div>
   </div>
-<InfoModal 
-  :show="queueModalOpen"
-
-  :selectedSong="userQueueData?.esta_na_fila === 1
+  <InfoModal :show="queueModalOpen" :selectedSong="userQueueData?.esta_na_fila === 1
     ? { name: userQueueData.musica_nome, singer: userQueueData.musica_artista }
-    : songs.find(m => m.id === selected) || {}"
-
-  :queueTime="userQueueData?.tempo_est_ate_cantar_formatado || '—'"
-  :queueEnteredAt="userQueueData?.data_entrada_fila || null"
-  :queuePosition="queuePosition"
-
-  @close="queueModalOpen = false"
-  @leave="handleLeaveQueue"
-/>
+    : songs.find(m => m.id === selected) || {}" :queueTime="userQueueData?.tempo_est_ate_cantar_formatado || '—'"
+    :queueEnteredAt="userQueueData?.data_entrada_fila || null" :queuePosition="queuePosition"
+    @close="queueModalOpen = false" @leave="handleLeaveQueue" />
 
 </template>
-
-
-
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
@@ -93,6 +84,7 @@ const loading = ref(true)
 const selected = ref(null)
 const songs = ref([])
 const userQueueData = ref(null)
+const confirmLoading = ref(false)
 
 const formatDuration = (seconds) => {
   const min = Math.floor(seconds / 60)
@@ -157,7 +149,7 @@ const fetchQueuePosition = async () => {
     const response = await karaokeService.getUser(id_usuario);
 
     if (response && response.id_usuario) {
-      userQueueData.value = response;        
+      userQueueData.value = response;
       queuePosition.value = response.posicao;
 
       if (response.esta_na_fila === 1) {
@@ -179,11 +171,6 @@ const fetchQueuePosition = async () => {
 };
 
 const confirmSong = async () => {
-  // if (userQueueData.value?.esta_na_fila === 1) {
-  //   queueModalOpen.value = true
-  //   return
-  // }
-
   if (!selected.value) {
     return toast.warning("Selecione uma música!");
   }
@@ -197,22 +184,28 @@ const confirmSong = async () => {
   const id_usuario = user.id;
   const id_musica = selected.value;
 
+  confirmLoading.value = true;  
+
   try {
     const response = await karaokeService.sendSong(id_musica, id_usuario);
 
-    if (response && (response.sucesso)) {
-      toast.success("Música adicionada a fila com sucesso!");
+    if (response && response.sucesso) {
+      toast.success("Música adicionada à fila com sucesso!");
       selected.value = null;
 
-      await fetchQueuePosition(); 
+      await fetchQueuePosition();
     } else {
       toast.info("Requisição enviada, mas a resposta não está no formato esperado.");
     }
+
   } catch (error) {
     console.error("Erro ao enviar música:", error);
     toast.error("Erro ao adicionar música.");
+  } finally {
+    confirmLoading.value = false; 
   }
 };
+
 
 
 const filteredSongs = computed(() =>

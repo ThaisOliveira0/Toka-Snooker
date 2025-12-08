@@ -1,21 +1,9 @@
-import axios from 'axios';
-import jwt_decode from 'jwt-decode';
-
-const API_URL = import.meta.env.VITE_BASE_URL;
-const API_KEY = import.meta.env.VITE_API_KEY;
-
-function api() {
-  return axios.create({
-    baseURL: API_URL,
-    headers: {
-      "x-api-key": API_KEY
-    }
-  });
-}
+import api from "@/service/api";  
+import jwt_decode from "jwt-decode";
 
 export async function login(email, senha) {
   try {
-    const response = await api().post("/login", { email, senha });
+    const response = await api.post("/login", { email, senha });
 
     if (response.data.token) {
       const token = response.data.token;
@@ -35,13 +23,14 @@ export async function login(email, senha) {
 
 export async function register(nome, email, telefone, senha, tipo_usuario) {
   try {
-    const response = await api().post("/usuarios", {
+    const response = await api.post("/usuarios", {
       nome,
       email,
       telefone,
       senha,
       tipo_usuario,
     });
+
     return response.data;
   } catch (error) {
     console.error("Erro ao cadastrar:", error.response?.data || error);
@@ -69,12 +58,12 @@ export function logout() {
 }
 
 export async function sendCode(email) {
-  const response = await api().post("/login/recuperacao", { email });
+  const response = await api.post("/login/recuperacao", { email });
   return response.data;
 }
 
 export async function verifyCode(email, codigo) {
-  const response = await api().post("/login/verificar-codigo", {
+  const response = await api.post("/login/verificar-codigo", {
     email,
     codigo,
   });
@@ -82,6 +71,6 @@ export async function verifyCode(email, codigo) {
 }
 
 export async function resetPassword(id, senha) {
-  const response = await api().put(`/login/alterar-senha/${id}`, { senha });
+  const response = await api.put(`/login/alterar-senha/${id}`, { senha });
   return response.data;
 }

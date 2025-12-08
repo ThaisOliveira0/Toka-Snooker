@@ -12,9 +12,9 @@
           <h4>{{ item.name }}</h4>
           <p>{{ item.subtitle }}</p>
 
-          <p v-if="item.observation" class="item-observation">
-            Obs: {{ item.observation }}
-          </p>
+        <p v-if="item.observacao" class="item-observation">
+            Obs: {{ item.observacao }}
+            </p>
         </div>
 
         <div class="actions">
@@ -127,7 +127,6 @@ const confirmOrder = async () => {
   try {
     const pedido = {
       id_usuario: userId.value, 
-      observacao: "Pedido feito via app",
       status: "PENDENTE",
       mesa: mesa ? Number(mesa) : null,
 
@@ -135,7 +134,7 @@ const confirmOrder = async () => {
         id_produto: item.id,
         quantidade: item.quantity,
         valor_unit: Number(item.price),
-        observacao: item.observation || "" 
+        observacao: item.observacao || "" 
       })),
 
       valor_total: Number(total.value),

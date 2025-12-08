@@ -15,7 +15,13 @@
       </div>
     </div>
 
-    <div v-else class="loading">Carregando comanda...</div>
+    <div v-else class="loading">
+      <i class="fas fa-spinner fa-spin spinner"></i>
+    </div>
+    <div v-if="noComanda && loaded" class="no-comanda">
+      <i class="fas fa-info-circle"></i>
+      <p>Você ainda não possui uma comanda aberta. Adicione uma música ou faça um pedido para abrir uma comanda!</p>
+    </div>
 
     <div v-if="pedidos.length" class="section pedidos">
       <h4>PEDIDOS</h4>
@@ -74,6 +80,7 @@ import ordersService from "../../service/ordersService";
 import { getDecodedToken } from "@/service/authService";
 
 const mesa = ref("Mesa —");
+const noComanda = ref(false);
 const data = ref("");
 const pedidos = ref([]);
 const musicas = ref([]);
@@ -100,28 +107,34 @@ onMounted(async () => {
     const decoded = getDecodedToken();
     if (!decoded) {
       console.error("Nenhum token encontrado ou inválido.");
+      noComanda.value = true;
       return;
     }
 
     const userId = decoded.id;
     const dataComanda = await ordersService.getComanda(userId);
-    if (!dataComanda) {
-      console.warn("Nenhuma comanda encontrada para este usuário.");
+
+    if (!dataComanda || !dataComanda.id) {
+      noComanda.value = true;
+      loaded.value = true;
       return;
     }
 
     mesa.value = `Mesa ${dataComanda.mesa ?? "—"}`;
-    data.value = new Date(dataComanda.data_abertura ?? new Date()).toLocaleDateString("pt-BR");
+    data.value = new Date(dataComanda.data_abertura ?? new Date())
+      .toLocaleDateString("pt-BR");
 
     pedidos.value = dataComanda.pedido?.flatMap(p => p.itens) ?? [];
     musicas.value = dataComanda.musica_pedido ?? [];
 
-
     loaded.value = true;
   } catch (error) {
     console.error("Erro ao carregar a comanda:", error);
+    noComanda.value = true;
+    loaded.value = true;
   }
 });
+
 
 </script>
 

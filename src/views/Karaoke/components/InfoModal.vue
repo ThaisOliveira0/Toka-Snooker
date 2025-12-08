@@ -25,7 +25,11 @@
 
 
 
-            <button class="queue-btn-leave" @click="leaveQueue">Sair da fila</button>
+            <button class="queue-btn-leave" @click="leaveQueue" :disabled="leaving">
+                <i v-if="leaving" class="fas fa-spinner fa-spin"></i>
+                <span v-else>Sair da fila</span>
+            </button>
+
         </div>
     </div>
 </template>
@@ -34,6 +38,10 @@
 import karaokeService from '@/service/karaokeService'
 import { getDecodedToken } from '@/service/authService.js'
 import { toast } from 'vue3-toastify'
+import { computed, ref } from "vue";
+
+const leaving = ref(false);
+
 
 const props = defineProps({
     show: Boolean,
@@ -47,30 +55,31 @@ const props = defineProps({
 const emit = defineEmits(['close', 'leave'])
 
 const closeModal = () => emit('close')
-import { computed } from "vue";
 
 const enteredQueueTime = computed(() => {
     if (!props.queueEnteredAt) return "—";
 
-    const date = new Date(props.queueEnteredAt);
-    return date.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-    });
+    return props.queueEnteredAt.slice(11, 16);
 });
 
+
 const leaveQueue = async () => {
+    if (leaving.value) return;
+    leaving.value = true;
+
     const user = getDecodedToken()
     if (!user) {
         toast.info("Usuário não autenticado.")
+        leaving.value = false
         return
     }
 
     const id_usuario = user.id
+
     try {
         const response = await karaokeService.exitLine(id_usuario)
-    
-        if (response && (response.sucesso)) {
+
+        if (response && response.sucesso) {
             toast.info("Você saiu da fila!")
             emit('leave')
         } else {
@@ -80,8 +89,11 @@ const leaveQueue = async () => {
     } catch (error) {
         console.error("Erro ao chamar exitLine:", error)
         toast.error("Erro ao sair da fila, veja console.")
+    } finally {
+        leaving.value = false
     }
 }
+
 </script>
 
 <style scoped>

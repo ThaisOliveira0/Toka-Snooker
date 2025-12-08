@@ -12,23 +12,17 @@
         Preço: R$ {{ item.price.toFixed(2) }}
       </div>
 
-      <textarea
-        v-model="localObservacao"
-        placeholder="Observações (ex: sem gelo, copo separado...)"
-        class="menu-modal-observation"
-      ></textarea>
+      <textarea v-model="localObservacao" placeholder="Observações (ex: sem gelo, copo separado...)"
+        class="menu-modal-observation"></textarea>
 
-<div class="menu-modal-actions">
-  <button @click="emit('decrease', item)">-</button>
-  <span>{{ item.quantity }}</span>
-  <button @click="emit('add', item)">+</button>
-</div>
+      <div class="menu-modal-actions">
+        <button @click="emit('decrease', item)">-</button>
+        <span>{{ item.quantity }}</span>
+        <button @click="emit('add', item)">+</button>
+      </div>
 
 
-      <button
-        class="menu-modal-add"
-        @click="handleAdd"
-      >
+      <button class="menu-modal-add" @click="handleAdd">
         Adicionar ao Carrinho
       </button>
     </div>
@@ -65,6 +59,7 @@ const handleAdd = () => {
   align-items: center;
   z-index: 20;
 }
+
 .menu-modal-content {
   background: white;
   border-radius: 1rem;
@@ -74,11 +69,13 @@ const handleAdd = () => {
   position: relative;
   text-align: center;
 }
+
 .menu-modal-img {
   width: 100%;
   border-radius: 12px;
   margin-bottom: 10px;
 }
+
 .menu-close {
   position: absolute;
   top: 10px;
@@ -88,15 +85,18 @@ const handleAdd = () => {
   font-size: 22px;
   cursor: pointer;
 }
+
 .menu-modal-description {
   font-size: 14px;
   color: #555;
   margin: 10px 0;
 }
+
 .menu-modal-price {
   font-weight: bold;
   margin: 10px 0;
 }
+
 .menu-modal-observation {
   width: 100%;
   padding: 8px;
@@ -104,6 +104,7 @@ const handleAdd = () => {
   border-radius: 8px;
   margin: 10px 0;
 }
+
 .menu-modal-actions {
   display: flex;
   justify-content: center;
@@ -111,6 +112,7 @@ const handleAdd = () => {
   gap: 10px;
   margin: 15px 0;
 }
+
 .menu-modal-add {
   background-color: #ffb703;
   border: none;
@@ -119,4 +121,37 @@ const handleAdd = () => {
   font-weight: bold;
   cursor: pointer;
 }
+.menu-modal-actions button {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: #111827;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, background 0.2s;
+}
+
+.menu-modal-actions button:hover {
+  background: #1f2937;
+  transform: scale(1.05);
+}
+
+.menu-modal-actions button:active {
+  transform: scale(0.92);
+}
+
+.menu-modal-actions span {
+  font-size: 18px;
+  font-weight: bold;
+  min-width: 24px;
+  text-align: center;
+  color: #333;
+}
+
 </style>
