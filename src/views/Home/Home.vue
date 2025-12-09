@@ -3,26 +3,16 @@
     <div class="header">
       <img src="@/assets/images/logo.png" alt="Logo" class="logo" />
 
-<div class="user-dropdown-wrapper" ref="dropdownRef">
+      <div class="user-dropdown-wrapper" ref="dropdownRef">
 
-  <img
-    v-if="isLoggedIn"
-    :src="userImg"
-    alt="Usuário"
-    class="login-icon"
-    @click="toggleDropdown"
-  />
+        <img v-if="isLoggedIn" :src="userImg" alt="Usuário" class="login-icon" @click="toggleDropdown" />
 
-  <i
-    v-else
-    class="fas fa-user login-icon"
-    @click="toggleDropdown"
-  ></i>
+        <i v-else class="fas fa-user login-icon" @click="toggleDropdown"></i>
 
-  <div v-if="dropdownOpen" class="user-dropdown">
-    <p @click="logout">Sair da conta</p>
-  </div>
-</div>
+        <div v-if="dropdownOpen" class="user-dropdown">
+          <p @click="logout">Sair da conta</p>
+        </div>
+      </div>
 
 
 
@@ -131,6 +121,8 @@
 
 <script>
 import { ref, onMounted, onUnmounted } from "vue";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 import promo1 from "@/assets/images/promo1.png";
 import promo2 from "@/assets/images/promo2.png";
 import promo3 from "@/assets/images/promo3.png";
@@ -163,7 +155,7 @@ export default {
 
     const isLoggedIn = ref(false);
     const dropdownOpen = ref(false);
-    const dropdownRef = ref(null); 
+    const dropdownRef = ref(null);
 
     const checkLogin = () => {
       const token = sessionStorage.getItem("token");
@@ -182,7 +174,9 @@ export default {
       sessionStorage.removeItem("token");
       isLoggedIn.value = false;
       dropdownOpen.value = false;
-      alert("Você saiu da conta!");
+      toast.info("Você saiu da conta!", {
+        autoClose: 2000,
+      });
     };
 
     const handleClickOutside = (event) => {

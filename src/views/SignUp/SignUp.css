@@ -21,7 +21,6 @@ html, body {
   padding: 15px;
 }
 
-/* ===== HEADER ===== */
 .signup-header {
   display: flex;
   align-items: center;
@@ -60,7 +59,6 @@ html, body {
   color: #a5d6a7;
 }
 
-/* ===== TITLE & TEXT ===== */
 .signup-info-text {
   margin: 16px 0 8px;
   font-size: 14px;
@@ -76,7 +74,6 @@ html, body {
   color: #10b981;
 }
 
-/* ===== AVATAR ===== */
 .signup-avatar {
   width: 80px;
   height: 80px;
@@ -97,7 +94,6 @@ html, body {
   object-fit: cover;
 }
 
-/* ===== FORM ===== */
 .signup-form {
   width: 100%;
   max-width: 400px;
@@ -157,7 +153,6 @@ html, body {
   color: #10b981;
 }
 
-/* ===== BUTTON ===== */
 .signup-button {
   background-color: #10b981;
   color: white;
@@ -170,6 +165,11 @@ html, body {
   margin-top: 16px;
   font-size: 16px;
   transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
 }
 
 .signup-button:hover {
@@ -178,15 +178,22 @@ html, body {
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* ===== ERROR MESSAGE ===== */
-.signup-error {
-  color: #d32f2f;
-  font-size: 14px;
-  margin-top: 12px;
-  text-align: center;
+
+.loader {
+  width: 20px;
+  height: 20px;
+  border: 3px solid #fff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
 }
 
-/* ===== RESPONSIVE ===== */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (max-width: 480px) {
   .signup-logo {
     height: 45px;

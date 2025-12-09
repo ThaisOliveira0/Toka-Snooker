@@ -1,7 +1,8 @@
 <template>
   <div class="recover-container">
     <div class="recover-header">
-      <button @click="$router.push({ name: 'login' })" class="recover-back-button">&lt;</button>
+      <button @click="$router.push({ name: 'login' })" class="recover-back-button"><i class="fa-solid fa-angle-left"></i>
+</button>
       <img src="@/assets/images/logo.png" alt="Logo" class="recover-logo" />
     </div>
 

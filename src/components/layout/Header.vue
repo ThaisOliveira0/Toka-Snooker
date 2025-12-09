@@ -1,7 +1,8 @@
 <template>
   <header class="app-header">
     <button class="back-button" @click="goBack">
-      &lt;
+    <i class="fa-solid fa-angle-left"></i>
+
     </button>
     <h1 class="title">
       <slot>Default Title</slot>

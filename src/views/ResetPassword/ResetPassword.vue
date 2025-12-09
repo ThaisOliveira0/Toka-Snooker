@@ -1,7 +1,8 @@
 <template>
   <div class="reset-container">
     <div class="reset-header">
-      <button @click="$router.push({ name: 'enterCode' })" class="reset-back-button">&lt;</button>
+      <button @click="$router.push({ name: 'enterCode' })" class="reset-back-button"><i class="fa-solid fa-angle-left"></i>
+</button>
       <img src="@/assets/images/logo.png" alt="Logo" class="reset-logo" />
     </div>
 

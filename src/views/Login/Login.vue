@@ -1,7 +1,8 @@
 <template>
   <div class="login-container">
     <div class="login-header">
-      <button @click="$router.push({ name: 'home' })" class="login-back-button">&lt;</button>
+      <button @click="$router.push({ name: 'home' })" class="login-back-button"><i class="fa-solid fa-angle-left"></i>
+</button>
       <img src="@/assets/images/logo.png" alt="Logo" class="login-logo" />
     </div>
 

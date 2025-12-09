@@ -1,7 +1,8 @@
 <template>
   <div class="verify-container">
     <div class="verify-header">
-      <button @click="$router.push({ name: 'forgotPassword' })" class="verify-back-button">&lt;</button>
+      <button @click="$router.push({ name: 'forgotPassword' })" class="verify-back-button"><i class="fa-solid fa-angle-left"></i>
+</button>
       <img src="@/assets/images/logo.png" alt="Logo" class="verify-logo" />
     </div>
 

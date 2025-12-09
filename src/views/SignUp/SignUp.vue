@@ -1,7 +1,8 @@
 <template>
   <div class="signup-container">
     <div class="signup-header">
-      <button @click="$router.push({ name: 'login' })" class="signup-back-button">&lt;</button>
+      <button @click="$router.push({ name: 'login' })" class="signup-back-button"><i class="fa-solid fa-angle-left"></i>
+      </button>
       <img src="@/assets/images/logo.png" alt="Logo" class="signup-logo" />
     </div>
 
@@ -30,7 +31,8 @@
 
       <div class="signup-input-group">
         <font-awesome-icon icon="phone" />
-        <input type="tel" v-model="phone" placeholder="Telefone" maxlength="15" required />
+        <input type="tel" v-model="phone" placeholder="Telefone" maxlength="15" required @input="formatPhone"
+          :class="{ 'input-error': phoneError }" />
       </div>
 
       <div class="signup-input-group">
@@ -48,7 +50,11 @@
           class="signup-toggle-eye" />
       </div>
 
-      <button class="signup-button" type="submit">Cadastrar</button>
+      <button class="signup-button" type="submit" :disabled="loading">
+        <i v-if="loading" class="fas fa-spinner fa-spin"></i>
+        <span v-else>Cadastrar</span>
+      </button>
+
     </form>
   </div>
 </template>
@@ -63,6 +69,8 @@ export default {
   data() {
     return {
       name: '',
+      loading: false,
+      phoneError: false,
       cpf: '',
       email: '',
       phone: '',
@@ -80,11 +88,39 @@ export default {
     toggleConfirmPassword() {
       this.showConfirmPassword = !this.showConfirmPassword;
     },
+    formatPhone(e) {
+      let v = e.target.value.replace(/\D/g, "");
+
+      if (v.length > 11) v = v.slice(0, 11);
+
+      if (v.length <= 10) {
+
+        v = v.replace(/(\d{2})(\d{4})(\d{0,4})/, "($1) $2-$3");
+      } else {
+
+        v = v.replace(/(\d{2})(\d{5})(\d{0,4})/, "($1) $2-$3");
+      }
+
+      this.phone = v;
+    },
+
     async handleRegister() {
+      const phoneDigits = this.phone.replace(/\D/g, "");
+
+      if (phoneDigits.length < 10 || phoneDigits.length > 11) {
+        this.phoneError = true;
+        toast.warning("Digite um telefone válido antes de continuar!");
+        return;
+      }
+
+      this.phoneError = false;
+
       if (this.password !== this.confirmPassword) {
         toast.warning('As senhas não conferem!');
         return;
       }
+
+      this.loading = true;
 
       try {
         const response = await register(
@@ -94,6 +130,7 @@ export default {
           this.password,
           'CLIENTE'
         );
+
         toast.success('Cadastro realizado com sucesso!');
         this.$router.push({ name: 'login' });
 
@@ -107,8 +144,11 @@ export default {
 
         this.errorMessage = errorMessage;
         toast.error(errorMessage);
+      } finally {
+        this.loading = false;
       }
     }
+
   }
 };
 </script>

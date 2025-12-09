@@ -2,16 +2,28 @@
   <div class="menu">
     <Header>CARDÁPIO</Header>
 
-    <div class="menu-tabs">
-      <button
-        v-for="tab in tabs"
-        :key="tab"
-        :class="{ active: tab === activeTab }"
-        @click="scrollToCategory(tab)"
-      >
-        {{ tab }}
-      </button>
-    </div>
+<div class="menu-tabs-container">
+  <button class="tab-arrow left" @click="scrollTabs('left')">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+
+  <div class="menu-tabs-wrapper" ref="tabsWrapper">
+    <button
+      v-for="tab in tabs"
+      :key="tab"
+      :class="{ active: tab === activeTab }"
+      @click="scrollToCategory(tab)"
+      class="menu-tab-btn"
+    >
+      {{ tab }}
+    </button>
+  </div>
+
+  <button class="tab-arrow right" @click="scrollTabs('right')">
+    <i class="fas fa-chevron-right"></i>
+  </button>
+</div>
+
 
  <div v-if="loading" class="loading-container-menu">
   <i class="fas fa-spinner fa-spin fa-2x"></i>
@@ -51,14 +63,15 @@
         </div>
       </div>
 
-      <ProductModal
-        v-if="selectedItem"
-        :item="selectedItem"
-        @close="closeModal"
-        @add="addItem"
-        @decrease="decreaseItem"
-        @confirm="handleConfirm"
-      />
+    <ProductModal
+      v-if="selectedItem"
+      :item="selectedItem"
+      @close="closeModal"
+      @add="addFromModal"
+      @decrease="decreaseFromModal"
+      @confirm="handleConfirm"
+    />
+
 
       <div
         v-if="cart.length > 0"
@@ -86,6 +99,20 @@ const selectedItem = ref(null)
 const activeTab = ref('Cervejas')
 const items = ref([])
 const loading = ref(true)
+const tabsWrapper = ref(null)
+
+const scrollTabs = (direction) => {
+  const el = tabsWrapper.value
+  if (!el) return
+
+  const amount = 150 
+
+  if (direction === "left") {
+    el.scrollBy({ left: -amount, behavior: "smooth" })
+  } else {
+    el.scrollBy({ left: amount, behavior: "smooth" })
+  }
+}
 
 
 const openModal = (item) => {
@@ -98,6 +125,20 @@ const scrollToCategory = (category) => {
   const el = document.getElementById(category)
   if (el) el.scrollIntoView({ behavior: 'smooth' })
 }
+
+const addFromModal = (modalItem) => {
+  const original = items.value.find(i => i.id === modalItem.id);
+  if (original) {
+    original.quantity++;
+  }
+};
+
+const decreaseFromModal = (modalItem) => {
+  const original = items.value.find(i => i.id === modalItem.id);
+  if (original && original.quantity > 0) {
+    original.quantity--;
+  }
+};
 
 const groupedItems = computed(() => {
   const groups = {}

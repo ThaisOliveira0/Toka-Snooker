@@ -162,10 +162,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 2000 !important;
 }
 
 .menu-modal-content {
   background: white;
+  z-index: 2100 !important;
   padding: 20px;
   border-radius: 12px;
   position: relative;
@@ -203,6 +205,56 @@ body {
   font-weight: bold;
   cursor: pointer;
   z-index: 1000;
+}
+.menu-tabs-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.tab-arrow {
+  background: #57856c;
+  color: #fff;
+  border: none;
+  padding: 7px;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.tab-arrow i {
+  font-size: 16px;
+}
+
+.menu-tabs-wrapper {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scrollbar-width: none; 
+  flex: 1;
+  scroll-behavior: smooth;
+}
+
+.menu-tabs-wrapper::-webkit-scrollbar {
+  display: none; 
+}
+
+.menu-tab-btn {
+  padding: 8px 16px;
+  background: #ddd;
+  color: #333;
+  border-radius: 20px;
+  border: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.menu-tab-btn.active {
+  background: #0b8f49;
+  color: white;
+  font-weight: bold;
 }
 
 .menu-cart-button {
