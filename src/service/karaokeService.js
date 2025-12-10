@@ -58,7 +58,6 @@ async exitLine(id_usuario) {
   async getUser(id_usuario) {
     try {
       const response = await api.get(`/fila/usuario/${id_usuario}`);
-      console.log(response);
       
       return response.data;
     } catch (error) {

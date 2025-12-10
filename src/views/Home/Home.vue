@@ -99,10 +99,10 @@
         <div class="footer-section">
           <h3 class="footer-title">Redes Sociais</h3>
           <div class="social-icons">
-            <a href="#" aria-label="Instagram">
+            <a href="https://www.instagram.com/tokasnookerbar20?igsh=eDVwZzUwN250aThi" aria-label="Instagram">
               <img src="/insta.png" alt="Instagram" />
             </a>
-            <a href="#" aria-label="Facebook">
+            <a href="https://www.facebook.com/share/19yQLKDhgJ/" aria-label="Facebook">
               <img src="/facebook.png" alt="Facebook" />
             </a>
           </div>

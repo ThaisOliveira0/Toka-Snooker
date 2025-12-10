@@ -5,14 +5,16 @@
     <div class="status-card" @click="openQueueModal">
       <p class="status-label">Tempo estimado de espera:</p>
 
-      <!-- TEMPO REAL DA ROTA -->
       <p class="status-time">
-        {{ userQueueData?.tempo_est_ate_cantar_formatado || "—" }}
+        {{
+          hasArrived
+            ? "🎤 Chegou a sua vez de cantar!"
+            : (userQueueData?.tempo_est_ate_cantar_formatado || "—")
+        }}
       </p>
 
       <i class="fas fa-sync-alt reload-icon" @click.stop="fetchQueuePosition"></i>
     </div>
-
 
     <div class="search-box">
       <input v-model="search" type="text" placeholder="Pesquise sua música..." class="search-input" />
@@ -42,18 +44,17 @@
       </div>
     </div>
 
-
     <div v-if="selected && userQueueData?.esta_na_fila !== 1" class="selected-music">
       <div class="selected-info">
         <p>Música selecionada:</p>
         <p><strong>{{ selectedSongName }}</strong></p>
       </div>
       <button class="confirm-button" @click="confirmSong" :disabled="confirmLoading">
-  <i v-if="confirmLoading" class="fas fa-spinner fa-spin"></i>
-  <span v-else>
-    <i class="fas fa-check"></i> Confirmar
-  </span>
-</button>
+        <i v-if="confirmLoading" class="fas fa-spinner fa-spin"></i>
+        <span v-else>
+          <i class="fas fa-check"></i> Confirmar
+        </span>
+      </button>
 
     </div>
   </div>
@@ -66,7 +67,8 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
+import confetti from "canvas-confetti";
 import '@fortawesome/fontawesome-free/css/all.css'
 import Header from '@/components/layout/Header.vue'
 import { getDecodedToken } from '@/service/authService.js'
@@ -92,17 +94,18 @@ const formatDuration = (seconds) => {
   return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`
 }
 
+
 const openQueueModal = () => {
   if (userQueueData.value?.esta_na_fila === 1) {
     queueModalOpen.value = true
     return
   }
-
+  
   if (!selected.value) {
     toast.info("Nenhuma música selecionada!");
     return;
   }
-
+  
   const now = new Date();
   requestTime.value = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   queueModalOpen.value = true;
@@ -119,7 +122,7 @@ onMounted(async () => {
   try {
     const data = await karaokeService.getSongs()
     if (!Array.isArray(data)) return
-
+    
     songs.value = data.map((m) => ({
       name: m.nome ?? m.name,
       singer: m.artista ?? m.singer ?? 'Desconhecido',
@@ -127,9 +130,9 @@ onMounted(async () => {
       genre: m.genero ?? m.genre,
       id: m.id ?? m._id ?? null
     }))
-
+    
     await fetchQueuePosition()
-
+    
   } catch (err) {
     console.error('Erro ao carregar músicas:', err)
   } finally {
@@ -141,26 +144,26 @@ onMounted(async () => {
 const fetchQueuePosition = async () => {
   const user = getDecodedToken();
   if (!user) return;
-
+  
   const id_usuario = user.id;
-
+  
   queueLoading.value = true;
   try {
     const response = await karaokeService.getUser(id_usuario);
-
+    
     if (response && response.id_usuario) {
       userQueueData.value = response;
       queuePosition.value = response.posicao;
-
+      
       if (response.esta_na_fila === 1) {
         selected.value = response.id_musica;
       }
-
+      
     } else {
       userQueueData.value = null;
       queuePosition.value = null;
     }
-
+    
   } catch (err) {
     console.error("Erro ao buscar posição na fila:", err);
     userQueueData.value = null;
@@ -174,51 +177,63 @@ const confirmSong = async () => {
   if (!selected.value) {
     return toast.warning("Selecione uma música!");
   }
-
+  
   const user = getDecodedToken();
   if (!user) {
     toast.error("Usuário não autenticado.");
     return;
   }
-
+  
   const id_usuario = user.id;
   const id_musica = selected.value;
-
-  confirmLoading.value = true;  
-
+  
+  confirmLoading.value = true;
+  
   try {
     const response = await karaokeService.sendSong(id_musica, id_usuario);
-
+    
     if (response && response.sucesso) {
       toast.success("Música adicionada à fila com sucesso!");
       selected.value = null;
-
+      
       await fetchQueuePosition();
     } else {
       toast.info("Requisição enviada, mas a resposta não está no formato esperado.");
     }
-
+    
   } catch (error) {
     console.error("Erro ao enviar música:", error);
     toast.error("Erro ao adicionar música.");
   } finally {
-    confirmLoading.value = false; 
+    confirmLoading.value = false;
   }
 };
 
-
-
 const filteredSongs = computed(() =>
-  songs.value.filter(m =>
-    (m.name || '').toLowerCase().includes(search.value.toLowerCase()) ||
-    (m.singer || '').toLowerCase().includes(search.value.toLowerCase())
-  )
+songs.value.filter(m =>
+(m.name || '').toLowerCase().includes(search.value.toLowerCase()) ||
+(m.singer || '').toLowerCase().includes(search.value.toLowerCase())
+)
 )
 
 const selectedSongName = computed(() => {
   const s = songs.value.find(m => m.id === selected.value)
   return s ? s.name : ''
 })
+
+const hasArrived = computed(() => {
+  return userQueueData.value?.tempo_est_ate_cantar_formatado === "0:00";
+});
+
+watch(hasArrived, (now) => {
+  if (now) {
+    confetti({
+      particleCount: 180,
+      spread: 90,
+      origin: { y: 0.6 }
+    });
+  }
+});
 
 const bgColor = (index) => {
   const colors = ['bg-green', 'bg-gray']
