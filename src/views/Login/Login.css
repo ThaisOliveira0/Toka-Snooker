@@ -58,11 +58,6 @@ html, body {
   color: #a5d6a7; 
 }
 
-.login-back-button:hover {
-  transform: scale(1.2);
-  color: #a5d6a7;
-}
-
 .login-info-text {
   margin: 16px 0 8px;
   font-size: 14px;

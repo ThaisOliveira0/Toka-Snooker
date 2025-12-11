@@ -186,11 +186,12 @@ const confirmSong = async () => {
   
   const id_usuario = user.id;
   const id_musica = selected.value;
+  const mesa = sessionStorage.getItem("mesa");
   
   confirmLoading.value = true;
   
   try {
-    const response = await karaokeService.sendSong(id_musica, id_usuario);
+    const response = await karaokeService.sendSong(id_musica, id_usuario, mesa);
     
     if (response && response.sucesso) {
       toast.success("Música adicionada à fila com sucesso!");
@@ -198,7 +199,7 @@ const confirmSong = async () => {
       
       await fetchQueuePosition();
     } else {
-      toast.info("Requisição enviada, mas a resposta não está no formato esperado.");
+      toast.info("Erro ao processar seu pedido.");
     }
     
   } catch (error) {

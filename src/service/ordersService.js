@@ -12,8 +12,6 @@ export default {
   },
 
   async createPedido(pedido) {
-    console.log(pedido);
-    
     try {
       const response = await api.post("/pedidos", pedido);
       return response.data;

@@ -152,9 +152,18 @@ const groupedItems = computed(() => {
 const addItem = (item) => item.quantity = (item.quantity || 0) + 1
 const decreaseItem = (item) => { if (item.quantity > 0) item.quantity-- }
 
-const handleConfirm = () => {
-  closeModal()
-}
+const handleConfirm = (modalItem) => {
+  const original = items.value.find(i => i.id === modalItem.id);
+
+  if (original) {
+    if (!original.quantity || original.quantity === 0) {
+      original.quantity = 1;
+    }
+  }
+
+  closeModal();
+};
+
 
 
 const cart = computed(() => items.value.filter(item => item.quantity > 0))

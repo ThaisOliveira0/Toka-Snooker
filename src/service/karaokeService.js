@@ -22,13 +22,14 @@ async getRelevance() {
 },
 
 
-async sendSong(id_musica, id_usuario) {
+async sendSong(id_musica, id_usuario,mesa) {
   try {
     const relevancia = await this.getRelevance(); 
 
     const response = await api.post(
       `/fila/${id_usuario}`,
       { id_musica },
+      { mesa },
       { params: { relevancia } }  
     );
     return response.data;
