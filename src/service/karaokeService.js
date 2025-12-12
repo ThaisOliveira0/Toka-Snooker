@@ -23,8 +23,6 @@ async getRelevance() {
 
 
 async sendSong(id_musica, id_usuario,mesa) {
-  console.log(mesa);
-  
   try {
     const relevancia = await this.getRelevance(); 
 

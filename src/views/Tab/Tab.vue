@@ -108,6 +108,7 @@ onMounted(async () => {
     if (!decoded) {
       console.error("Nenhum token encontrado ou inválido.");
       noComanda.value = true;
+      loaded.value = true;
       return;
     }
 
